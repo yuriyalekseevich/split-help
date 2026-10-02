@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "homeTitle": "lokalne usluge u Splitu",
+    "homeDescription": "Sitni popravci, namještaj po mjeri i IKEA, provjera stana prije najma, transfer do zračne luke i obližnjih gradova, baloni za proslave u Splitu."
+  },
+  "nav": {
+    "services": "Usluge",
+    "reviews": "Recenzije",
+    "contact": "Kontakt",
+    "soon": "uskoro",
+    "language": "Jezik",
+    "home": "Početna",
+    "primary": "Odjeljci"
+  },
+  "hero": {
+    "greeting": "Bok, drago nam je što ste ovdje",
+    "eyebrow": "Split, Hrvatska",
+    "title": "Trebate pomoć u Splitu?",
+    "titleEmphasis": "Tu smo da vam pomognemo.",
+    "subtitle": "Pogledajte usluge koje trenutno imamo. Popis stalno raste — dodajemo nove kako bismo pokrili ono što vam treba. Ako i dalje ne vidite što tražite, javite nam se izravno i potrudit ćemo se pomoći.",
+    "noteTitle": "Odgovaramo osobno",
+    "noteBody": "Nema pozivnog centra. Ako zadatak nije jasan, pitamo prije nego dođemo.",
+    "ctaServices": "Pogledaj usluge",
+    "ctaContact": "Pišite nam"
+  },
+  "services": {
+    "eyebrow": "Što radimo",
+    "title": "Usluge",
+    "missing": "Ako usluge koju tražite nema na popisu, javite nam što vam treba i potrudit ćemo se pomoći.",
+    "empty": "Trenutno nema ništa na popisu. Pišite svejedno — reći ćemo možemo li pomoći."
+  },
+  "reviews": {
+    "eyebrow": "Recenzije",
+    "title": "Stižu uskoro",
+    "body": "Skupljamo prve dojmove ljudi kojima smo već pomogli. Pojavit će se ovdje.",
+    "badge": "Uskoro"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Recite što vam treba",
+    "lead": "Dovoljna je kratka poruka. Ako nešto fali, pitamo.",
+    "name": "Ime",
+    "contact": "Telefon ili e-mail",
+    "message": "Poruka",
+    "messagePlaceholder": "Polica u Varošu, sutra poslijepodne ako možete.",
+    "submit": "Pošalji poruku",
+    "sending": "Šaljem…",
+    "formMessage": "Bok! Moje ime je {name}. Možete me dobiti na {contact}.\n\n{message}",
+    "success": "Otvorio se WhatsApp s vašom porukom. Pritisnite Pošalji u tom chatu da je primimo.",
+    "error": "Chat se nije otvorio. Upotrijebite gumb WhatsApp iznad.",
+    "greeting": "Bok! Želim pitati za pomoć u Splitu."
+  },
+  "service": {
+    "included": "Što je uključeno",
+    "comments": "Dodatne napomene",
+    "commentsPlaceholder": "Adresa, datum, mjere, broj leta…",
+    "optional": "neobavezno",
+    "reassure": "Ne brinite ako niste dodali detalje — javit ćemo vam se i sve ćemo razjasniti.",
+    "back": "Natrag na sve usluge"
+  },
+  "toast": {
+    "copied": "Poruka je kopirana — zalijepite je u chat",
+    "copyFailed": "Automatsko kopiranje nije uspjelo. Otvorite chat i zalijepite poruku ručno."
+  },
+  "footer": {
+    "tagline": "Lokalne usluge u Splitu. Radimo sami.",
+    "rights": "Sva prava pridržana."
+  },
+  "a11y": {
+    "messengers": "Javite se putem aplikacije",
+    "skip": "Preskoči na sadržaj",
+    "breadcrumb": "Putanja"
+  },
+  "channels": {
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "email": "E-mail"
+  },
+  "notFound": {
+    "title": "Stranica nije pronađena",
+    "body": "Te stranice nema. Bolje je krenuti s popisa usluga.",
+    "back": "Natrag na početnu"
+  }
+}

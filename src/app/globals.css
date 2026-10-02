@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand: #f3eee6;
+  --color-paper: #fffdfb;
+  --color-ink: #1c1916;
+  --color-muted: #5f584f;
+  --color-line: #e4dacd;
+  --color-sea: #0f3d4c;
+  --color-sea-soft: #e7f1f3;
+  --color-coral: #9a3412;
+  --color-coral-soft: #f8e7de;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--color-sand);
+  background-image:
+    radial-gradient(900px 420px at 110% -10%, color-mix(in srgb, var(--color-sea) 14%, transparent), transparent 60%),
+    radial-gradient(720px 380px at -12% 8%, color-mix(in srgb, var(--color-coral) 12%, transparent), transparent 55%);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: #d5e6ea;
+}
+
+.wave-hand {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.4s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30% {
+    transform: rotate(16deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .wave-hand {
+    animation: none;
+  }
+}
