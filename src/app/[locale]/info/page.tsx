@@ -1,11 +1,13 @@
 import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { UsefulInfoList } from '@/components/public/UsefulInfoList';
 import { Link } from '@/i18n/navigation';
+import { routing } from '@/i18n/routing';
 import { isLocale, pageMetadata } from '@/lib/i18n';
-import { infoRepository } from '@/infrastructure/repositories';
-import { InfoBrowser } from '@/components/public/InfoBrowser';
+import { listUsefulInfo } from '@/lib/services/useful-info.server';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -31,22 +33,12 @@ export default async function InfoPage({ params }: Props) {
   }
 
   setRequestLocale(locale);
-  const stored = await infoRepository.getAllVisible();
-  const topics = stored.map((topic) => ({
-    id: topic.id,
-    slug: topic.slug,
-    title: topic.title,
-    summary: topic.summary,
-    body: topic.body,
-    links: topic.links.map((link) => ({
-      label: link.label,
-      url: link.url,
-      note: link.note,
-    })),
-  }));
-  const t = await getTranslations('info');
-  const nav = await getTranslations('nav');
-  const a11y = await getTranslations('a11y');
+  const [result, t, nav, a11y] = await Promise.all([
+    listUsefulInfo(locale),
+    getTranslations('info'),
+    getTranslations('nav'),
+    getTranslations('a11y'),
+  ]);
 
   return (
     <main id="content" className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
@@ -63,12 +55,19 @@ export default async function InfoPage({ params }: Props) {
           </li>
         </ol>
       </nav>
-      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.16em] text-sea">
-        {t('eyebrow')}
-      </p>
+      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.16em] text-sea">{t('eyebrow')}</p>
       <h1 className="mt-3 font-serif text-4xl text-ink sm:text-5xl">{t('pageTitle')}</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">{t('growing')}</p>
-      <InfoBrowser topics={topics} locale={locale} />
+
+      {result.success ? (
+        result.data.length === 0 ? (
+          <p className="mt-8 rounded-3xl border border-line bg-paper px-5 py-8 text-muted">{t('emptyList')}</p>
+        ) : (
+          <UsefulInfoList items={result.data} />
+        )
+      ) : (
+        <p className="mt-8 rounded-3xl border border-line bg-paper px-5 py-8 text-muted">{t('loadError')}</p>
+      )}
     </main>
   );
 }
