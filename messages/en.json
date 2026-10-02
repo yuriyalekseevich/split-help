@@ -5,6 +5,7 @@
   },
   "nav": {
     "services": "Services",
+    "info": "Info",
     "reviews": "Reviews",
     "contact": "Contact",
     "soon": "soon",
@@ -28,6 +29,23 @@
     "title": "Services",
     "missing": "If what you need isn't on the list, tell us and we'll do our best to help.",
     "empty": "Nothing is listed right now. Write to us anyway and we'll tell you if we can help."
+  },
+  "info": {
+    "eyebrow": "Useful information",
+    "title": "Everyday questions",
+    "teaser": "Short answers we keep adding: where to look for a home, how to book a MUP appointment, and whatever else people ask.",
+    "cta": "See the questions",
+    "pageTitle": "Useful information",
+    "growing": "This list keeps growing. We add an answer whenever the same question comes up.",
+    "searchLabel": "Search the questions",
+    "searchPlaceholder": "A site, a word, MUP…",
+    "empty": "Nothing matches that. Try a site name or another word.",
+    "matches": "Also mentions",
+    "sites": "Sites",
+    "groups": "Facebook groups",
+    "featured": "Start here",
+    "back": "All questions",
+    "newTab": "Opens in a new tab"
   },
   "reviews": {
     "eyebrow": "Reviews",

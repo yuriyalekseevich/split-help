@@ -15,12 +15,14 @@ The home path redirects to the default language.
 npm run build
 npm run start
 npm run lint
+npm test
 ```
 
 ## Where things live
 
 - Brand, domain, and contact handles: `src/content/site.ts`
 - Service catalog: `src/infrastructure/data/services.ts`, read only through `serviceRepository`
+- Useful-info notes: `src/infrastructure/data/info-topics.ts`, read only through `infoRepository`
 - Interface copy: `messages/*.json`
 
 The catalog is a file for now. A database repository can replace that one implementation later without changing the pages.

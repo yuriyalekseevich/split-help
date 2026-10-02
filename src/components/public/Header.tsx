@@ -30,6 +30,9 @@ export async function Header() {
             <Link href="/#services" className="transition hover:text-sea">
               {t('services')}
             </Link>
+            <Link href="/info" className="transition hover:text-sea">
+              {t('info')}
+            </Link>
             <Link
               href="/#reviews"
               className="inline-flex items-center gap-2 transition hover:text-sea"
@@ -55,6 +58,9 @@ export async function Header() {
           <nav aria-label={t('primary')} className="flex items-center gap-4 text-sm font-medium">
             <Link href="/#services" className="hover:text-sea">
               {t('services')}
+            </Link>
+            <Link href="/info" className="hover:text-sea">
+              {t('info')}
             </Link>
             <Link href="/#reviews" className="inline-flex items-center gap-1.5 hover:text-sea">
               {t('reviews')}

@@ -5,6 +5,7 @@
   },
   "nav": {
     "services": "Usluge",
+    "info": "Korisno",
     "reviews": "Iskustva",
     "contact": "Kontakt",
     "soon": "uskoro",
@@ -28,6 +29,23 @@
     "title": "Usluge",
     "missing": "Nema usluge koju tražite? Napišite što vam treba i potrudit ćemo se da pomognemo.",
     "empty": "Popis je zasad prazan. Pišite svejedno, pa ćemo reći možemo li pomoći."
+  },
+  "info": {
+    "eyebrow": "Korisne informacije",
+    "title": "Svakodnevna pitanja",
+    "teaser": "Kratki odgovori koje dopunjujemo: gdje tražiti stan, kako rezervirati termin u MUP-u i sve ostalo što ljudi pitaju.",
+    "cta": "Pogledajte pitanja",
+    "pageTitle": "Korisne informacije",
+    "growing": "Popis stalno raste. Dodajemo odgovor kad se isto pitanje ponovi.",
+    "searchLabel": "Pretraži pitanja",
+    "searchPlaceholder": "Stranica, riječ, MUP…",
+    "empty": "Nema pogodaka. Pokušajte ime stranice ili drugu riječ.",
+    "matches": "Spominje se",
+    "sites": "Stranice",
+    "groups": "Grupe na Facebooku",
+    "featured": "Počnite ovdje",
+    "back": "Sva pitanja",
+    "newTab": "Otvara se u novoj kartici"
   },
   "reviews": {
     "eyebrow": "Iskustva",

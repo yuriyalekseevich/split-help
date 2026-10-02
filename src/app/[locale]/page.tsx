@@ -7,6 +7,7 @@ import { isLocale, pageMetadata } from '@/lib/i18n';
 import { serviceRepository } from '@/infrastructure/repositories';
 import { ContactSection } from '@/components/public/ContactSection';
 import { Hero } from '@/components/public/Hero';
+import { InfoTeaser } from '@/components/public/InfoTeaser';
 import { ReviewsTeaser } from '@/components/public/ReviewsTeaser';
 import { ServicesGrid } from '@/components/public/ServicesGrid';
 
@@ -41,6 +42,7 @@ export default async function HomePage({ params }: Props) {
     <main id="content">
       <Hero />
       <ServicesGrid services={services} locale={locale} />
+      <InfoTeaser />
       <ReviewsTeaser />
       <ContactSection />
     </main>
