@@ -1,7 +1,7 @@
 {
   "meta": {
     "homeTitle": "local services in Split",
-    "homeDescription": "Handyman work, custom and IKEA furniture, apartment checks before renting, transfers to the airport and nearby cities, and party balloons in Split."
+    "homeDescription": "Help around the home in Split: small repairs, furniture made to fit or assembled, a look at a flat before you rent it, rides to the airport and nearby cities, and balloons for a party."
   },
   "nav": {
     "services": "Services",
@@ -10,35 +10,35 @@
     "soon": "soon",
     "language": "Language",
     "home": "Home",
-    "primary": "Sections"
+    "primary": "Menu"
   },
   "hero": {
-    "greeting": "Hi, glad to see you here",
+    "greeting": "Hi, glad you're here",
     "eyebrow": "Split, Croatia",
     "title": "Need help in Split?",
-    "titleEmphasis": "We are here to help you.",
-    "subtitle": "Look through the services we have right now. The list keeps growing — we are adding more so we can cover what you have in mind. If you still don't see what you need, contact us directly and we will do our best to help.",
-    "noteTitle": "We answer ourselves",
-    "noteBody": "No call centre. If the job isn't clear, we'll ask before we come.",
+    "titleEmphasis": "We're here to help.",
+    "subtitle": "Have a look at what we do now. The list grows as people ask for new things. If you don't see what you need, write to us and we'll do our best.",
+    "noteTitle": "We reply ourselves",
+    "noteBody": "No call centre. If the job isn't clear, we ask before we come.",
     "ctaServices": "See services",
     "ctaContact": "Write to us"
   },
   "services": {
     "eyebrow": "What we do",
     "title": "Services",
-    "missing": "If the service you need isn’t in the list, tell us what you’re looking for and we’ll do our best to help.",
+    "missing": "If what you need isn't on the list, tell us and we'll do our best to help.",
     "empty": "Nothing is listed right now. Write to us anyway and we'll tell you if we can help."
   },
   "reviews": {
     "eyebrow": "Reviews",
     "title": "Coming soon",
-    "body": "We're collecting the first notes from people we've already helped. They will show up here.",
+    "body": "We're gathering the first reviews from people we've already helped. They'll show up here.",
     "badge": "Coming soon"
   },
   "contact": {
     "eyebrow": "Contact",
     "title": "Tell us what you need",
-    "lead": "A short note is enough. If something is missing, we'll ask.",
+    "lead": "A few lines are enough. If something's missing, we'll ask.",
     "name": "Name",
     "contact": "Phone or email",
     "message": "Message",
@@ -46,28 +46,28 @@
     "submit": "Send message",
     "sending": "Sending…",
     "formMessage": "Hi! My name is {name}. You can reach me at {contact}.\n\n{message}",
-    "success": "WhatsApp opened with your message. Press send in that chat so we receive it.",
-    "error": "The chat didn’t open. Use the WhatsApp button above.",
+    "success": "WhatsApp opened with your message. Press send in that chat so it reaches us.",
+    "error": "The chat didn't open. Use the WhatsApp button above.",
     "greeting": "Hi! I'd like to ask about help in Split."
   },
   "service": {
     "included": "What's included",
-    "comments": "Additional comments",
+    "comments": "Extra details",
     "commentsPlaceholder": "Address, date, sizes, flight number…",
     "optional": "optional",
-    "reassure": "Don't worry if you didn't add details — we'll contact you back to clarify everything.",
+    "reassure": "No worries if you left the details out. We'll get back to you and sort them out.",
     "back": "Back to all services"
   },
   "toast": {
-    "copied": "Message copied — paste it in the chat",
-    "copyFailed": "Couldn't copy automatically. Open the chat and paste your message there."
+    "copied": "Message copied. Paste it into the chat.",
+    "copyFailed": "We couldn't copy it automatically. Open the chat and paste your message there."
   },
   "footer": {
-    "tagline": "Local services in Split. We do the work ourselves.",
+    "tagline": "Local help in Split. We do the work ourselves.",
     "rights": "All rights reserved."
   },
   "a11y": {
-    "messengers": "Contact via messenger",
+    "messengers": "Message us",
     "skip": "Skip to content",
     "breadcrumb": "Breadcrumb"
   },
@@ -79,7 +79,7 @@
   },
   "notFound": {
     "title": "Page not found",
-    "body": "That page isn't here. The services list is a better place to start.",
+    "body": "That page isn't here. Start from the list of services.",
     "back": "Back home"
   }
 }
