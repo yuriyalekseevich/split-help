@@ -25,4 +25,4 @@ npm test
 - Useful-info notes: `src/infrastructure/data/info-topics.ts`, read only through `infoRepository`
 - Interface copy: `messages/*.json`
 
-The catalog is a file for now. A database repository can replace that one implementation later without changing the pages.
+The catalog is a file for now. A database repository can replace that one implementation later without changing the pages
