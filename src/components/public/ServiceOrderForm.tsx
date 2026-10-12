@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { LocalizedString } from '@/domain/service';
 import { site } from '@/content/site';
 import type { Locale } from '@/lib/i18n';
 import { buildOrderMessage } from '@/lib/messaging';
@@ -11,15 +10,14 @@ import { MessengerButtons } from './MessengerButtons';
 
 export function ServiceOrderForm({
   locale,
-  service,
+  title,
 }: {
   locale: Locale;
-  service: { title: LocalizedString };
+  title: string;
 }) {
   const t = useTranslations('service');
   const [comments, setComments] = useState('');
-  const title = service.title[locale];
-  const message = buildOrderMessage({ locale, service, comments });
+  const message = buildOrderMessage({ locale, title, comments });
 
   return (
     <div className="mt-8">

@@ -5,58 +5,73 @@ import { routing } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { splitLines } from '@/lib/format';
-import { serviceRepository } from '@/infrastructure/repositories';
+import { getCatalogServiceBySlug } from '@/lib/services/service-catalog.server';
+import { parseServiceSlug } from '@/lib/services/service-catalog.schema';
 import { ServiceImage } from '@/components/public/ServiceImage';
 import { ServiceOrderForm } from '@/components/public/ServiceOrderForm';
+
+const SERVICE_IMAGE_FALLBACK = '/placeholder-service.svg';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export async function generateStaticParams() {
-  const services = await serviceRepository.getAllVisible();
-  return routing.locales.flatMap((locale) =>
-    services.map((service) => ({
-      locale,
-      slug: service.slug,
-    })),
-  );
+function metaDescription(subtitle: string | null, description: string) {
+  const source = subtitle ?? description;
+  return source.length > 180 ? `${source.slice(0, 177)}…` : source;
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { locale, slug } = await params;
+  const { locale, slug: rawSlug } = await params;
   if (!isLocale(locale)) return {};
 
-  const service = await serviceRepository.getBySlug(slug);
-  if (!service || !service.visible) return {};
+  const slug = parseServiceSlug(rawSlug);
+  if (slug === null) return {};
+
+  const result = await getCatalogServiceBySlug(slug, locale);
+  if (!result.success || !result.data) return {};
 
   return pageMetadata({
     locale,
-    title: service.title[locale],
-    description: service.shortDescription[locale],
-    path: `/service/${service.slug}`,
-    image: service.imageUrl,
+    title: result.data.title,
+    description: metaDescription(result.data.subtitle, result.data.description),
+    path: `/service/${result.data.slug}`,
+    image: result.data.imageUrl ?? SERVICE_IMAGE_FALLBACK,
   });
 }
 
 export default async function ServicePage({ params }: Props) {
-  const { locale, slug } = await params;
+  const { locale, slug: rawSlug } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
+  const slug = parseServiceSlug(rawSlug);
+  if (slug === null) notFound();
+
   setRequestLocale(locale);
-  const service = await serviceRepository.getBySlug(slug);
-  if (!service || !service.visible) {
-    notFound();
+  const [result, t, nav, a11y] = await Promise.all([
+    getCatalogServiceBySlug(slug, locale),
+    getTranslations('service'),
+    getTranslations('nav'),
+    getTranslations('a11y'),
+  ]);
+
+  if (!result.success) {
+    return (
+      <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
+        <h1 className="font-serif text-4xl text-ink">{nav('services')}</h1>
+        <p className="mt-8 rounded-3xl border border-line bg-paper px-5 py-8 text-muted">{t('loadError')}</p>
+      </main>
+    );
   }
 
-  const t = await getTranslations('service');
-  const nav = await getTranslations('nav');
-  const a11y = await getTranslations('a11y');
-  const title = service.title[locale];
-  const included = splitLines(service.included[locale]);
-  const priceHint = service.priceHint?.[locale];
+  if (!result.data) notFound();
+
+  const service = result.data;
+  const included = splitLines(service.description);
 
   return (
     <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
@@ -75,21 +90,19 @@ export default async function ServicePage({ params }: Props) {
           </li>
           <li aria-hidden="true">/</li>
           <li aria-current="page" className="text-ink">
-            {title}
+            {service.title}
           </li>
         </ol>
       </nav>
 
       <ServiceImage
-        src={service.imageUrl}
-        alt={title}
+        src={service.imageUrl ?? SERVICE_IMAGE_FALLBACK}
+        alt={service.title}
         priority
         className="mt-6 aspect-[16/10] w-full rounded-3xl"
       />
 
-      <h1 className="mt-6 font-serif text-4xl leading-tight text-ink sm:text-5xl">
-        {title}
-      </h1>
+      <h1 className="mt-6 font-serif text-4xl leading-tight text-ink sm:text-5xl">{service.title}</h1>
 
       <h2 className="mt-8 font-serif text-2xl text-ink">{t('included')}</h2>
       <ul className="mt-4 grid gap-3">
@@ -103,13 +116,13 @@ export default async function ServicePage({ params }: Props) {
         ))}
       </ul>
 
-      {priceHint ? (
+      {service.priceDescription ? (
         <p className="mt-6 inline-flex rounded-full bg-sea-soft px-3 py-1 text-sm font-semibold text-sea">
-          {priceHint}
+          {service.priceDescription}
         </p>
       ) : null}
 
-      <ServiceOrderForm locale={locale} service={{ title: service.title }} />
+      <ServiceOrderForm locale={locale} title={service.title} />
 
       <p className="mt-8">
         <Link href="/" className="text-sm font-semibold text-sea hover:underline">

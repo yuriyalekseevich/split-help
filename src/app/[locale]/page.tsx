@@ -4,12 +4,14 @@ import { notFound } from 'next/navigation';
 import { site } from '@/content/site';
 import { routing } from '@/i18n/routing';
 import { isLocale, pageMetadata } from '@/lib/i18n';
-import { serviceRepository } from '@/infrastructure/repositories';
+import { listCatalogServices } from '@/lib/services/service-catalog.server';
 import { ContactSection } from '@/components/public/ContactSection';
 import { Hero } from '@/components/public/Hero';
 import { InfoTeaser } from '@/components/public/InfoTeaser';
 import { ReviewsTeaser } from '@/components/public/ReviewsTeaser';
 import { ServicesGrid } from '@/components/public/ServicesGrid';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -36,12 +38,12 @@ export default async function HomePage({ params }: Props) {
   }
 
   setRequestLocale(locale);
-  const services = await serviceRepository.getAllVisible();
+  const services = await listCatalogServices(locale);
 
   return (
     <main id="content">
       <Hero />
-      <ServicesGrid services={services} locale={locale} />
+      <ServicesGrid services={services.success ? services.data : []} failed={!services.success} />
       <InfoTeaser />
       <ReviewsTeaser />
       <ContactSection />

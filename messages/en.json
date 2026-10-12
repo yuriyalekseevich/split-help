@@ -28,7 +28,8 @@
     "eyebrow": "What we do",
     "title": "Services",
     "missing": "If what you need isn't on the list, tell us and we'll do our best to help.",
-    "empty": "Nothing is listed right now. Write to us anyway and we'll tell you if we can help."
+    "empty": "Nothing is listed right now. Write to us anyway and we'll tell you if we can help.",
+    "loadError": "The list could not be loaded. Refresh the page and try again."
   },
   "info": {
     "eyebrow": "Useful information",
@@ -77,7 +78,8 @@
     "commentsPlaceholder": "Address, date, sizes, flight number…",
     "optional": "optional",
     "reassure": "No worries if you left the details out. We'll get back to you and sort them out.",
-    "back": "Back to all services"
+    "back": "Back to all services",
+    "loadError": "This service could not be loaded. Refresh the page and try again."
   },
   "toast": {
     "copied": "Message copied. Paste it into the chat.",

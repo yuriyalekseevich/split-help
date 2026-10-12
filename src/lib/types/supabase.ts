@@ -38,6 +38,166 @@ export type Database = {
         }
         Relationships: []
       }
+      service_images: {
+        Row: {
+          created_at: string
+          id: number
+          image_url: string
+          service_id: number
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          image_url: string
+          service_id: number
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          image_url?: string
+          service_id?: number
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_service_images"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_reviews: {
+        Row: {
+          author_avatar_url: string | null
+          author_name: string | null
+          created_at: string
+          id: number
+          rating: number | null
+          review_text: string
+          service_id: number
+          status: string
+        }
+        Insert: {
+          author_avatar_url?: string | null
+          author_name?: string | null
+          created_at?: string
+          id?: never
+          rating?: number | null
+          review_text: string
+          service_id: number
+          status?: string
+        }
+        Update: {
+          author_avatar_url?: string | null
+          author_name?: string | null
+          created_at?: string
+          id?: never
+          rating?: number | null
+          review_text?: string
+          service_id?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_service_reviews"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_translations: {
+        Row: {
+          created_at: string
+          description: string
+          id: number
+          language_code: string
+          price_description: string | null
+          service_id: number
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: never
+          language_code: string
+          price_description?: string | null
+          service_id: number
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: never
+          language_code?: string
+          price_description?: string | null
+          service_id?: number
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_language"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "fk_service"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          created_at: string
+          id: number
+          image_url: string | null
+          is_active: boolean
+          published_at: string | null
+          slug: string
+          sort_order: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          image_url?: string | null
+          is_active?: boolean
+          published_at?: string | null
+          slug: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          image_url?: string | null
+          is_active?: boolean
+          published_at?: string | null
+          slug?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       useful_info: {
         Row: {
           created_at: string

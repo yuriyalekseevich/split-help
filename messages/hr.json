@@ -28,7 +28,8 @@
     "eyebrow": "Što radimo",
     "title": "Usluge",
     "missing": "Nema usluge koju tražite? Napišite što vam treba i potrudit ćemo se da pomognemo.",
-    "empty": "Popis je zasad prazan. Pišite svejedno, pa ćemo reći možemo li pomoći."
+    "empty": "Popis je zasad prazan. Pišite svejedno, pa ćemo reći možemo li pomoći.",
+    "loadError": "Popis se nije mogao učitati. Osvježite stranicu i pokušajte ponovno."
   },
   "info": {
     "eyebrow": "Korisne informacije",
@@ -77,7 +78,8 @@
     "commentsPlaceholder": "Adresa, datum, mjere, broj leta…",
     "optional": "nije obavezno",
     "reassure": "Nije problem ako niste naveli detalje. Javit ćemo vam se i sve ćemo dogovoriti.",
-    "back": "Natrag na sve usluge"
+    "back": "Natrag na sve usluge",
+    "loadError": "Uslugu nismo mogli učitati. Osvježite stranicu i pokušajte ponovno."
   },
   "toast": {
     "copied": "Poruka je kopirana. Zalijepite je u razgovor.",

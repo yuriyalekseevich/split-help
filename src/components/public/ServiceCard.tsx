@@ -5,17 +5,11 @@ type Props = {
   href: string;
   title: string;
   description: string;
-  priceHint?: string;
+  priceDescription?: string | null;
   imageUrl: string;
 };
 
-export function ServiceCard({
-  href,
-  title,
-  description,
-  priceHint,
-  imageUrl,
-}: Props) {
+export function ServiceCard({ href, title, description, priceDescription, imageUrl }: Props) {
   return (
     <Link
       href={href}
@@ -31,8 +25,8 @@ export function ServiceCard({
           {title}
         </h3>
         <p className="mt-2 flex-1 text-sm leading-6 text-muted">{description}</p>
-        {priceHint ? (
-          <p className="mt-4 text-sm font-semibold text-sea">{priceHint}</p>
+        {priceDescription ? (
+          <p className="mt-4 text-sm font-semibold text-sea">{priceDescription}</p>
         ) : null}
       </div>
     </Link>

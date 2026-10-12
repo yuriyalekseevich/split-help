@@ -1,4 +1,3 @@
-import type { LocalizedString } from '@/domain/service';
 import { site } from '@/content/site';
 import type { Locale } from '@/lib/i18n';
 
@@ -35,15 +34,14 @@ const orderTemplates: Record<
 
 export function buildOrderMessage({
   locale,
-  service,
+  title,
   comments,
 }: {
   locale: Locale;
-  service: { title: LocalizedString };
+  title: string;
   comments?: string;
 }): string {
   const template = orderTemplates[locale];
-  const title = service.title[locale];
   const note = comments?.trim();
   if (!note) return template.lead(title);
   return `${template.lead(title)}${template.notes(note)}`;

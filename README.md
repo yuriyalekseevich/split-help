@@ -21,8 +21,6 @@ npm test
 ## Where things live
 
 - Brand, domain, and contact handles: `src/content/site.ts`
-- Service catalog: `src/infrastructure/data/services.ts`, read only through `serviceRepository`
-- Useful-info notes: `src/infrastructure/data/info-topics.ts`, read only through `infoRepository`
+- Service catalog: Supabase tables `services` and `service_translations`, read through `listCatalogServices` / `getCatalogServiceBySlug`
+- Useful-info notes: Supabase tables `useful_info` and `useful_info_translations`, read through `listUsefulInfo` / `getUsefulInfoById`. A file copy still lives in `src/infrastructure/data/info-topics.ts`
 - Interface copy: `messages/*.json`
-
-The catalog is a file for now. A database repository can replace that one implementation later without changing the pages
