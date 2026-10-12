@@ -15,32 +15,34 @@ export async function ServicesGrid({
   const t = await getTranslations('services');
 
   return (
-    <section id="services" className="md:scroll-mt-24 mx-auto max-w-6xl px-5 py-6 sm:px-8 sm:py-10">
-      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sea">
+    <section id="services" className="reveal md:scroll-mt-24 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+      <p className="text-sm font-semibold tracking-[0.16em] text-sea uppercase">
         {t('eyebrow')}
       </p>
-      <h2 className="mt-3 font-serif text-4xl text-ink">{t('title')}</h2>
+      <h2 className="mt-3 max-w-xl text-4xl text-ink sm:text-5xl">{t('title')}</h2>
       <AiSearchPlaceholder />
       {failed ? (
-        <p className="mt-8 rounded-3xl border border-line bg-paper px-5 py-8 text-muted">{t('loadError')}</p>
+        <p className="mt-10 rounded-3xl border border-line px-5 py-8 text-muted">{t('loadError')}</p>
       ) : services.length === 0 ? (
-        <p className="mt-8 text-muted">{t('empty')}</p>
+        <p className="mt-10 text-muted">{t('empty')}</p>
       ) : (
-        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <li key={service.id} className="h-full">
+        <ul className="mt-14 flex flex-col gap-16 sm:gap-20">
+          {services.map((service, index) => (
+            <li key={service.id}>
               <ServiceCard
                 href={`/service/${service.slug}`}
                 title={service.title}
                 description={service.subtitle ?? ''}
+                moreLabel={t('more')}
                 priceDescription={service.priceDescription}
                 imageUrl={service.imageUrl ?? SERVICE_IMAGE_FALLBACK}
+                reverse={index % 2 === 1}
               />
             </li>
           ))}
         </ul>
       )}
-      <p className="mt-8 max-w-2xl text-base leading-7 text-muted">{t('missing')}</p>
+      <p className="mt-16 max-w-2xl text-base leading-7 text-muted">{t('missing')}</p>
     </section>
   );
 }

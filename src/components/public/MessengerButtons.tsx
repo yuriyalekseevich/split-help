@@ -40,7 +40,7 @@ function ChannelIcon({ channel }: { channel: MessengerChannel }) {
 type Props = {
   message: string;
   subject?: string;
-  layout?: 'icon' | 'bar';
+  layout?: 'icon' | 'bar' | 'plain';
   channels?: MessengerChannel[];
   className?: string;
 };
@@ -80,7 +80,9 @@ export function MessengerButtons({
         className={
           layout === 'icon'
             ? `flex items-center gap-2 ${className}`
-            : `grid gap-3 sm:grid-cols-2 ${className}`
+            : layout === 'plain'
+              ? `flex flex-col items-start gap-4 ${className}`
+              : `grid gap-3 sm:grid-cols-2 ${className}`
         }
       >
         {channels.map((channel) => {
@@ -115,13 +117,15 @@ export function MessengerButtons({
               }
               className={
                 layout === 'icon'
-                  ? `inline-flex size-11 items-center justify-center rounded-full transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea ${channelClass[channel]}`
-                  : `flex items-center justify-between gap-3 rounded-2xl px-4 py-4 text-base font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea ${channelClass[channel]}`
+                  ? `inline-flex size-11 items-center justify-center rounded-full transition duration-200 ease-out motion-safe:hover:scale-105 motion-safe:active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea ${channelClass[channel]}`
+                  : layout === 'plain'
+                    ? 'inline-flex items-center gap-3 text-base font-semibold text-ink underline decoration-mint decoration-2 underline-offset-4 transition hover:text-sea focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea'
+                    : `flex items-center justify-between gap-3 rounded-2xl px-4 py-4 text-base font-semibold transition duration-200 ease-out motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea ${channelClass[channel]}`
               }
             >
               <span className="flex items-center gap-3">
                 <ChannelIcon channel={channel} />
-                {layout === 'bar' ? <span>{label}</span> : null}
+                {layout === 'icon' ? null : <span>{label}</span>}
               </span>
               {layout === 'bar' ? <span aria-hidden="true">→</span> : null}
             </a>

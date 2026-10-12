@@ -98,7 +98,6 @@ export default async function ServicePage({ params }: Props) {
       <ServiceImage
         src={service.imageUrl ?? SERVICE_IMAGE_FALLBACK}
         alt={service.title}
-        priority
         className="mt-6 aspect-[16/10] w-full rounded-3xl"
       />
 

@@ -29,7 +29,8 @@
     "title": "Usluge",
     "missing": "Nema usluge koju tražite? Napišite što vam treba i potrudit ćemo se da pomognemo.",
     "empty": "Popis je zasad prazan. Pišite svejedno, pa ćemo reći možemo li pomoći.",
-    "loadError": "Popis se nije mogao učitati. Osvježite stranicu i pokušajte ponovno."
+    "loadError": "Popis se nije mogao učitati. Osvježite stranicu i pokušajte ponovno.",
+    "more": "Saznaj više"
   },
   "info": {
     "eyebrow": "Korisne informacije",
@@ -88,6 +89,12 @@
   "footer": {
     "tagline": "Pomoć u Splitu. Posao radimo sami.",
     "rights": "Sva prava pridržana."
+  },
+  "gallery": {
+    "label": "Fotografije Splita",
+    "previous": "Prethodna fotografija",
+    "next": "Sljedeća fotografija",
+    "dot": "Prikaži fotografiju {number}"
   },
   "a11y": {
     "messengers": "Pošaljite poruku",

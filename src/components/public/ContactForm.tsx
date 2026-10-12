@@ -37,14 +37,16 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
-      <Input id="contact-name" name="name" label={t('name')} required autoComplete="name" />
-      <Input
-        id="contact-reach"
-        name="contact"
-        label={t('contact')}
-        required
-        autoComplete="on"
-      />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Input id="contact-name" name="name" label={t('name')} required autoComplete="name" />
+        <Input
+          id="contact-reach"
+          name="contact"
+          label={t('contact')}
+          required
+          autoComplete="on"
+        />
+      </div>
       <Textarea
         id="contact-message"
         name="message"
@@ -53,12 +55,19 @@ export function ContactForm() {
         required
         rows={5}
       />
-      <div>
-        <Button type="submit">{t('submit')}</Button>
+      <div className="pt-2 text-center">
+        <Button type="submit" variant="light" className="min-w-40">
+          {t('submit')}
+        </Button>
       </div>
       {status === 'success' ? (
-        <p role="status" className="text-sm text-sea">
-          {t('success')}
+        <p role="status" className="flex items-start justify-center gap-2 text-sm text-ink">
+          <span className="success-check mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-night text-white" aria-hidden="true">
+            <svg viewBox="0 0 16 16" className="size-3.5" fill="none">
+              <path d="M3.5 8.5 6.5 11.5 12.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span>{t('success')}</span>
         </p>
       ) : null}
       {status === 'error' ? (

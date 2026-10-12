@@ -19,13 +19,9 @@ function emptyToNull(value: unknown): unknown {
 }
 
 function isSafeImageUrl(value: string): boolean {
-  if (value.startsWith('/') && !value.startsWith('//') && !value.includes('\\') && !value.includes('..')) {
-    return true;
-  }
-
   try {
     const url = new URL(value);
-    if (url.protocol !== 'https:' && url.protocol !== 'http:') return false;
+    if (url.protocol !== 'https:') return false;
     if (url.username || url.password) return false;
     return true;
   } catch {

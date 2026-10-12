@@ -6,11 +6,16 @@ import { Link, usePathname } from '@/i18n/navigation';
 export function LanguageSwitcher({
   locale,
   label,
+  tone = 'dark',
 }: {
   locale: Locale;
   label: string;
+  tone?: 'dark' | 'light';
 }) {
   const pathname = usePathname();
+  const current = tone === 'light' ? 'text-white' : 'text-ink';
+  const idle = tone === 'light' ? 'text-white/50 hover:text-white' : 'text-muted hover:text-ink';
+  const divider = tone === 'light' ? 'text-white/30' : 'text-line';
 
   return (
     <nav aria-label={label}>
@@ -18,7 +23,7 @@ export function LanguageSwitcher({
         {locales.map((code, index) => (
           <li key={code} className="flex items-center">
             {index > 0 ? (
-              <span aria-hidden="true" className="px-1.5 text-line">
+              <span aria-hidden="true" className={`px-1.5 ${divider}`}>
                 |
               </span>
             ) : null}
@@ -27,11 +32,7 @@ export function LanguageSwitcher({
               locale={code}
               hrefLang={code}
               aria-current={code === locale ? 'page' : undefined}
-              className={
-                code === locale
-                  ? 'text-ink'
-                  : 'text-muted transition hover:text-ink'
-              }
+              className={code === locale ? current : `transition ${idle}`}
             >
               {code.toUpperCase()}
             </Link>

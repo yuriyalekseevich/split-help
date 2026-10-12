@@ -29,7 +29,8 @@
     "title": "Services",
     "missing": "If what you need isn't on the list, tell us and we'll do our best to help.",
     "empty": "Nothing is listed right now. Write to us anyway and we'll tell you if we can help.",
-    "loadError": "The list could not be loaded. Refresh the page and try again."
+    "loadError": "The list could not be loaded. Refresh the page and try again.",
+    "more": "Learn more"
   },
   "info": {
     "eyebrow": "Useful information",
@@ -88,6 +89,12 @@
   "footer": {
     "tagline": "Local help in Split. We do the work ourselves.",
     "rights": "All rights reserved."
+  },
+  "gallery": {
+    "label": "Photos of Split",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "dot": "Show photo {number}"
   },
   "a11y": {
     "messengers": "Message us",

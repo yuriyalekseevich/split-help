@@ -198,6 +198,72 @@ export type Database = {
         }
         Relationships: []
       }
+      split_images: {
+        Row: {
+          alt_text: string
+          created_at: string
+          id: number
+          image_url: string
+          is_active: boolean
+          sort_order: number
+        }
+        Insert: {
+          alt_text: string
+          created_at?: string
+          id?: never
+          image_url: string
+          is_active?: boolean
+          sort_order?: number
+        }
+        Update: {
+          alt_text?: string
+          created_at?: string
+          id?: never
+          image_url?: string
+          is_active?: boolean
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      split_image_translations: {
+        Row: {
+          id: number
+          language_code: string
+          split_image_id: number
+          subtitle: string
+          title: string
+        }
+        Insert: {
+          id?: never
+          language_code: string
+          split_image_id: number
+          subtitle?: string
+          title: string
+        }
+        Update: {
+          id?: never
+          language_code?: string
+          split_image_id?: number
+          subtitle?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_split_image_translations_image"
+            columns: ["split_image_id"]
+            isOneToOne: false
+            referencedRelation: "split_images"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_split_image_translations_language"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       useful_info: {
         Row: {
           created_at: string

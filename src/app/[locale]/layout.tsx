@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Literata, Manrope } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import { hasLocale } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -14,12 +14,6 @@ import '../globals.css';
 const sans = Manrope({
   subsets: ['latin', 'latin-ext', 'cyrillic'],
   variable: '--font-manrope',
-  display: 'swap',
-});
-
-const serif = Literata({
-  subsets: ['latin', 'latin-ext', 'cyrillic'],
-  variable: '--font-literata',
   display: 'swap',
 });
 
@@ -61,7 +55,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const t = await getTranslations('a11y');
 
   return (
-    <html lang={locale} className={`${sans.variable} ${serif.variable} h-full`}>
+    <html lang={locale} className={`${sans.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans text-ink antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <a

@@ -4,80 +4,59 @@ import { isLocale } from '@/lib/i18n';
 import { Link } from '@/i18n/navigation';
 import { Badge } from '@/components/ui/Badge';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { MessengerButtons } from './MessengerButtons';
 
 export async function Header() {
   const t = await getTranslations('nav');
-  const contact = await getTranslations('contact');
+  const hero = await getTranslations('hero');
   const localeValue = await getLocale();
   const locale = isLocale(localeValue) ? localeValue : 'en';
-  const greeting = contact('greeting');
+
+  const links = (
+    <>
+      <Link href="/#services" className="transition hover:text-mint">
+        {t('services')}
+      </Link>
+      <Link href="/info" className="transition hover:text-mint">
+        {t('info')}
+      </Link>
+      <Link href="/#reviews" className="inline-flex items-center gap-2 transition hover:text-mint">
+        {t('reviews')}
+        <Badge>{t('soon')}</Badge>
+      </Link>
+      <Link href="/#contact" className="transition hover:text-mint">
+        {t('contact')}
+      </Link>
+    </>
+  );
 
   return (
-    <header className="z-30 border-b border-line/80 bg-paper md:sticky md:top-0">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-3 sm:px-8">
-        <div className="flex items-center justify-between gap-3">
+    <header className="z-30 bg-night text-white md:sticky md:top-0">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
+        <Link href="/" className="shrink-0 text-base font-extrabold tracking-tight whitespace-nowrap text-white sm:text-lg">
+          {site.brandName}
+        </Link>
+        <nav
+          aria-label={t('primary')}
+          className="hidden items-center gap-7 text-sm font-medium text-white/75 md:flex"
+        >
+          {links}
+        </nav>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <LanguageSwitcher locale={locale} label={t('language')} tone="light" />
           <Link
-            href="/"
-            className="font-serif text-xl font-semibold tracking-tight text-ink"
+            href="/#contact"
+            className="hidden items-center justify-center rounded-full border border-mint px-4 py-2 text-sm font-semibold whitespace-nowrap text-mint transition duration-200 ease-out hover:bg-mint hover:text-night motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint sm:inline-flex"
           >
-            {site.brandName}
+            {hero('ctaContact')}
           </Link>
-          <nav
-            aria-label={t('primary')}
-            className="hidden items-center gap-6 text-sm font-medium md:flex"
-          >
-            <Link href="/#services" className="transition hover:text-sea">
-              {t('services')}
-            </Link>
-            <Link href="/info" className="transition hover:text-sea">
-              {t('info')}
-            </Link>
-            <Link
-              href="/#reviews"
-              className="inline-flex items-center gap-2 transition hover:text-sea"
-            >
-              {t('reviews')}
-              <Badge>{t('soon')}</Badge>
-            </Link>
-            <Link href="/#contact" className="transition hover:text-sea">
-              {t('contact')}
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher locale={locale} label={t('language')} />
-            <MessengerButtons
-              message={greeting}
-              layout="icon"
-              channels={['whatsapp', 'telegram', 'facebook']}
-              className="hidden md:flex"
-            />
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 md:hidden">
-          <nav aria-label={t('primary')} className="flex items-center gap-4 text-sm font-medium">
-            <Link href="/#services" className="hover:text-sea">
-              {t('services')}
-            </Link>
-            <Link href="/info" className="hover:text-sea">
-              {t('info')}
-            </Link>
-            <Link href="/#reviews" className="inline-flex items-center gap-1.5 hover:text-sea">
-              {t('reviews')}
-              <Badge>{t('soon')}</Badge>
-            </Link>
-            <Link href="/#contact" className="hover:text-sea">
-              {t('contact')}
-            </Link>
-          </nav>
-          <MessengerButtons
-            message={greeting}
-            layout="icon"
-            channels={['whatsapp', 'telegram', 'facebook']}
-            className="lg:hidden"
-          />
         </div>
       </div>
+      <nav
+        aria-label={t('primary')}
+        className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-5 pb-3 text-sm font-medium text-white/75 md:hidden"
+      >
+        {links}
+      </nav>
     </header>
   );
 }

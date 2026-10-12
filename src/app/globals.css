@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sand: #f3eee6;
-  --color-paper: #fffdfb;
-  --color-ink: #1c1916;
-  --color-muted: #5f584f;
-  --color-line: #e4dacd;
-  --color-sea: #0f3d4c;
-  --color-sea-soft: #e7f1f3;
+  --color-sand: #ffffff;
+  --color-paper: #ffffff;
+  --color-ink: #14161a;
+  --color-night: #101114;
+  --color-muted: #5c6670;
+  --color-line: #e5e9ee;
+  --color-mint: #2ed9c3;
+  --color-sea: #0f766e;
+  --color-sea-soft: #e7faf6;
   --color-coral: #9a3412;
   --color-coral-soft: #f8e7de;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -25,15 +27,19 @@ html {
 }
 
 body {
-  background-color: var(--color-sand);
-  background-image:
-    radial-gradient(900px 420px at 110% -10%, color-mix(in srgb, var(--color-sea) 14%, transparent), transparent 60%),
-    radial-gradient(720px 380px at -12% 8%, color-mix(in srgb, var(--color-coral) 12%, transparent), transparent 55%);
+  background-color: #fff;
   color: var(--color-ink);
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
 ::selection {
-  background: #d5e6ea;
+  background: #c8f6ec;
 }
 
 .wave-hand {
@@ -60,6 +66,70 @@ body {
   }
   50% {
     transform: rotate(10deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 32%;
+  }
+
+  .success-check {
+    animation: pop-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .success-check path {
+    stroke-dasharray: 16;
+    stroke-dashoffset: 16;
+    animation: draw-check 0.4s ease 0.12s forwards;
+  }
+
+  .slide-copy {
+    animation: slide-copy 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    translate: 0 1.25rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slide-copy {
+  from {
+    opacity: 0;
+    translate: 0 0.8rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 

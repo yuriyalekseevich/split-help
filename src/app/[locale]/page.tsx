@@ -6,7 +6,7 @@ import { routing } from '@/i18n/routing';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { listCatalogServices } from '@/lib/services/service-catalog.server';
 import { ContactSection } from '@/components/public/ContactSection';
-import { Hero } from '@/components/public/Hero';
+import { SplitGallery } from '@/components/public/SplitGallery';
 import { InfoTeaser } from '@/components/public/InfoTeaser';
 import { ReviewsTeaser } from '@/components/public/ReviewsTeaser';
 import { ServicesGrid } from '@/components/public/ServicesGrid';
@@ -42,7 +42,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <main id="content">
-      <Hero />
+      <SplitGallery />
       <ServicesGrid services={services.success ? services.data : []} failed={!services.success} />
       <InfoTeaser />
       <ReviewsTeaser />

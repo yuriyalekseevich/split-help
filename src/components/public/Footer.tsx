@@ -8,25 +8,26 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-8 border-t border-line bg-paper">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 sm:px-8 md:flex-row md:items-end md:justify-between">
+    <footer className="bg-night text-white">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="font-serif text-2xl text-ink">{site.brandName}</p>
-          <p className="mt-2 max-w-sm text-sm leading-6 text-muted">{t('tagline')}</p>
+          <p className="text-2xl font-extrabold tracking-tight">{site.brandName}</p>
+          <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">{t('tagline')}</p>
         </div>
-        <div className="flex flex-col gap-3 text-sm">
-          <nav aria-label={nav('primary')} className="flex gap-4 font-medium">
-            <Link href="/#services" className="hover:text-sea">
-              {nav('services')}
-            </Link>
-            <Link href="/#contact" className="hover:text-sea">
-              {nav('contact')}
-            </Link>
-          </nav>
-          <p className="text-muted">
-            © {year} {site.brandName}. {t('rights')}
-          </p>
-        </div>
+        <nav aria-label={nav('primary')} className="flex flex-col gap-3 text-sm font-medium text-white/80">
+          <Link href="/#services" className="transition hover:text-mint">
+            {nav('services')}
+          </Link>
+          <Link href="/info" className="transition hover:text-mint">
+            {nav('info')}
+          </Link>
+          <Link href="/#contact" className="transition hover:text-mint">
+            {nav('contact')}
+          </Link>
+        </nav>
+        <p className="text-sm text-white/50">
+          © {year} {site.brandName}. {t('rights')}
+        </p>
       </div>
     </footer>
   );

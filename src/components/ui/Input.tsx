@@ -1,5 +1,5 @@
 const fieldClass =
-  'w-full rounded-2xl border border-line bg-paper px-4 py-3 text-base text-ink outline-none transition placeholder:text-muted/70 focus:border-sea focus:ring-2 focus:ring-sea/15';
+  'w-full rounded-full border border-line bg-white px-5 py-3 text-base text-ink shadow-sm outline-none transition placeholder:text-muted/70 focus:border-sea focus:ring-2 focus:ring-sea/15';
 
 type Props = {
   id: string;
@@ -22,7 +22,7 @@ export function Input({
 }: Props) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
+      <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-ink">
         {label}
       </label>
       <input

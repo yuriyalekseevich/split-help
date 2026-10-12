@@ -5,7 +5,7 @@ const services = [
   {
     id: 1,
     slug: 'muzh-na-chas',
-    image_url: '/services/muzh-na-chas.jpg',
+    image_url: 'https://images.example/handyman.jpg',
     sort_order: 2,
     is_active: true,
     status: 'published',
@@ -95,7 +95,7 @@ describe('assembleCatalogServices', () => {
         subtitle: 'Мелкий ремонт в Сплите.',
         description: 'Повесим полки',
         priceDescription: 'от 25 € в час',
-        imageUrl: '/services/muzh-na-chas.jpg',
+        imageUrl: 'https://images.example/handyman.jpg',
       },
     ]);
   });
@@ -108,13 +108,15 @@ describe('assembleCatalogServices', () => {
   });
 
   it('rejects an unsafe image', () => {
-    const result = assembleCatalogServices(
-      [{ ...services[0], image_url: 'javascript:alert(1)' }],
-      translations,
-      'en',
-      'ru',
-    );
-    expect(result.success).toBe(false);
+    for (const imageUrl of ['javascript:alert(1)', '/services/muzh-na-chas.jpg']) {
+      const result = assembleCatalogServices(
+        [{ ...services[0], image_url: imageUrl }],
+        translations,
+        'en',
+        'ru',
+      );
+      expect(result.success).toBe(false);
+    }
   });
 });
 
