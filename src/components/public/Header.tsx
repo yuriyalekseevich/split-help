@@ -32,7 +32,17 @@ export async function Header() {
   return (
     <header className="z-30 bg-night text-white md:sticky md:top-0">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
-        <Link href="/" className="shrink-0 text-base font-extrabold tracking-tight whitespace-nowrap text-white sm:text-lg">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2.5 text-base font-extrabold tracking-tight whitespace-nowrap text-white sm:text-lg"
+        >
+          <img
+            src="/brand-icon.jpg"
+            alt=""
+            width={40}
+            height={40}
+            className="size-9 rounded-md sm:size-10"
+          />
           {site.brandName}
         </Link>
         <nav

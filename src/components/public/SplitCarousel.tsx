@@ -53,14 +53,14 @@ export function SplitCarousel({
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="relative h-[34rem] overflow-hidden bg-night sm:h-[38rem]">
+      <div className="relative h-[calc(34rem*1.232)] w-full overflow-hidden bg-night sm:h-[calc(38rem*1.232)]">
         {images.map((image, imageIndex) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={image.id}
             src={image.imageUrl}
             alt={image.altText}
-            className={`absolute inset-0 size-full object-cover transition duration-700 ease-out motion-reduce:transition-none ${
+            className={`absolute inset-0 size-full object-cover object-center transition duration-700 ease-out motion-reduce:transition-none ${
               imageIndex === index ? 'opacity-100' : 'pointer-events-none opacity-0'
             }`}
             loading={imageIndex === 0 ? 'eager' : 'lazy'}
@@ -70,7 +70,7 @@ export function SplitCarousel({
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night/55 via-night/35 to-night/70" />
         <div
           key={current.id}
-          className="slide-copy absolute inset-0 flex flex-col items-center justify-center px-5 pb-16 text-center sm:px-8"
+          className="slide-copy pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-5 pb-16 text-center sm:px-8"
         >
           <h1 className={current.title ? 'w-full min-w-0 max-w-4xl text-4xl leading-[1.05] text-white sm:text-6xl' : 'sr-only'}>
             {title}
@@ -78,7 +78,7 @@ export function SplitCarousel({
           {current.subtitle ? (
             <p className="mt-4 w-full min-w-0 max-w-2xl text-base leading-7 text-white/85 sm:text-lg">{current.subtitle}</p>
           ) : null}
-          <a href="#contact" className={buttonClass('primary', 'mt-8')}>
+          <a href="#contact" className={buttonClass('primary', 'pointer-events-auto mt-8')}>
             {ctaLabel}
           </a>
         </div>
