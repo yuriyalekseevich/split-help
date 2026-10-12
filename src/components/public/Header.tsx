@@ -14,7 +14,7 @@ export async function Header() {
   const greeting = contact('greeting');
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line/80 bg-paper/90 backdrop-blur-md">
+    <header className="z-30 border-b border-line/80 bg-paper md:sticky md:top-0">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-3 sm:px-8">
         <div className="flex items-center justify-between gap-3">
           <Link

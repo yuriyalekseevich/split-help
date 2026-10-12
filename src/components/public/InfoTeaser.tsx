@@ -5,7 +5,7 @@ export async function InfoTeaser() {
   const t = await getTranslations('info');
 
   return (
-    <section id="info" className="scroll-mt-24 mx-auto max-w-6xl px-5 py-6 sm:px-8">
+    <section id="info" className="md:scroll-mt-24 mx-auto max-w-6xl px-5 py-6 sm:px-8">
       <Link
         href="/info"
         className="group block rounded-3xl border border-line bg-paper px-6 py-8 shadow-sm transition motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea sm:px-10 sm:py-10"

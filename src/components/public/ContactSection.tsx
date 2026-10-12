@@ -6,7 +6,7 @@ export async function ContactSection() {
   const t = await getTranslations('contact');
 
   return (
-    <section id="contact" className="scroll-mt-24 mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+    <section id="contact" className="md:scroll-mt-24 mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
       <div className="grid gap-10 lg:grid-cols-2">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sea">

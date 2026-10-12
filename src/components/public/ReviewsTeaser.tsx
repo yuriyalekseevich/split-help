@@ -5,7 +5,7 @@ export async function ReviewsTeaser() {
   const t = await getTranslations('reviews');
 
   return (
-    <section id="reviews" className="scroll-mt-24 mx-auto max-w-6xl px-5 py-10 sm:px-8">
+    <section id="reviews" className="md:scroll-mt-24 mx-auto max-w-6xl px-5 py-10 sm:px-8">
       <div className="rounded-3xl border border-dashed border-line bg-paper/70 px-6 py-10 sm:px-10">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sea">
           {t('eyebrow')}

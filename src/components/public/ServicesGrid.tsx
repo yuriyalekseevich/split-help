@@ -14,7 +14,7 @@ export async function ServicesGrid({
   const t = await getTranslations('services');
 
   return (
-    <section id="services" className="scroll-mt-24 mx-auto max-w-6xl px-5 py-6 sm:px-8 sm:py-10">
+    <section id="services" className="md:scroll-mt-24 mx-auto max-w-6xl px-5 py-6 sm:px-8 sm:py-10">
       <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sea">
         {t('eyebrow')}
       </p>
