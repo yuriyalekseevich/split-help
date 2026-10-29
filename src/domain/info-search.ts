@@ -45,7 +45,7 @@ function haystack(topic: InfoSearchDocument): string {
 
 function localeValues(value?: LocalizedString): string[] {
   if (!value) return [];
-  return [value.en, value.ru, value.hr, value.uk];
+  return [value.en, value.ru, value.hr, value.ua];
 }
 
 function normalize(value: string): string {

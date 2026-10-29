@@ -4,7 +4,7 @@ import type { LocalizedString } from '@/domain/service';
 import { createFileInfoRepository } from './file-info-repository';
 
 function text(value: string): LocalizedString {
-  return { en: value, ru: value, hr: value, uk: value };
+  return { en: value, ru: value, hr: value, ua: value };
 }
 
 function topic(overrides: Partial<InfoTopic> & Pick<InfoTopic, 'id' | 'slug'>): InfoTopic {

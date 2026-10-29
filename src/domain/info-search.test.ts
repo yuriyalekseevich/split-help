@@ -3,8 +3,8 @@ import { matchedLinkLabels, searchInfoTopics } from './info-search';
 import type { InfoSearchDocument } from './info-topic';
 import type { LocalizedString } from './service';
 
-function text(en: string, ru = en, hr = en, uk = en): LocalizedString {
-  return { en, ru, hr, uk };
+function text(en: string, ru = en, hr = en, ua = en): LocalizedString {
+  return { en, ru, hr, ua };
 }
 
 function topic(

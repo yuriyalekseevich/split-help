@@ -9,8 +9,8 @@ import type { LocalizedString } from '@/domain/service';
 
 const published = new Date('2026-03-01T08:00:00.000Z');
 
-function text(en: string, ru: string, hr: string, uk: string): LocalizedString {
-  return { en, ru, hr, uk };
+function text(en: string, ru: string, hr: string, ua: string): LocalizedString {
+  return { en, ru, hr, ua };
 }
 
 const shortStay = text(

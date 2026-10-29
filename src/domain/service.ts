@@ -3,5 +3,5 @@ export interface LocalizedString {
   en: string;
   ru: string;
   hr: string;
-  uk: string;
+  ua: string;
 }

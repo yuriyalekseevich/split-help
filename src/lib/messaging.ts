@@ -26,7 +26,7 @@ const orderTemplates: Record<
     lead: (title) => `Bok! Želim naručiti: ${title}.`,
     notes: (comments) => ` Napomene: ${comments}`,
   },
-  uk: {
+  ua: {
     lead: (title) => `Вітаю! Хочу замовити: ${title}.`,
     notes: (comments) => ` Коментарі: ${comments}`,
   },

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { defineRouting } from 'next-intl/routing';
 import { site } from '@/content/site';
 
-export const locales = ['en', 'ru', 'hr', 'uk'] as const;
+export const locales = ['en', 'ru', 'hr', 'ua'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
@@ -24,7 +24,15 @@ const openGraphLocales: Record<Locale, string> = {
   en: 'en_US',
   ru: 'ru_RU',
   hr: 'hr_HR',
-  uk: 'uk_UA',
+  ua: 'uk_UA',
+};
+
+/** Address prefix is `ua`. The language tag stays `uk`. */
+const hreflangFor: Record<Locale, string> = {
+  en: 'en',
+  ru: 'ru',
+  hr: 'hr',
+  ua: 'uk',
 };
 
 function absoluteUrl(locale: Locale, path: string) {
@@ -36,7 +44,7 @@ function absoluteUrl(locale: Locale, path: string) {
 export function alternatesFor(locale: Locale, path = '') {
   const languages: Record<string, string> = {};
   for (const code of locales) {
-    languages[code] = absoluteUrl(code, path);
+    languages[hreflangFor[code]] = absoluteUrl(code, path);
   }
   languages['x-default'] = absoluteUrl(defaultLocale, path);
 
