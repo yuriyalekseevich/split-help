@@ -69,8 +69,8 @@
     "submit": "Pošaljite poruku",
     "sending": "Šaljemo…",
     "formMessage": "Bok! Zovem se {name}. Možete me dobiti na {contact}.\n\n{message}",
-    "success": "WhatsApp se otvorio s vašom porukom. Pritisnite Pošalji u tom razgovoru da nam poruka stigne.",
-    "error": "Razgovor se nije otvorio. Pritisnite gumb WhatsApp iznad.",
+    "success": "E-mail se otvorio s vašom porukom. Pritisnite Pošalji da nam poruka stigne.",
+    "error": "E-mail se nije otvorio. Pritisnite jedan od gumba iznad.",
     "greeting": "Bok! Zanima me pomoć u Splitu."
   },
   "service": {
@@ -87,7 +87,7 @@
     "copyFailed": "Poruku nismo uspjeli automatski kopirati. Otvorite razgovor i zalijepite je ručno."
   },
   "footer": {
-    "tagline": "Pomoć u Splitu. Posao radimo sami.",
+    "tagline": "Pomoć u Splitu. Koordiniramo rad i kontroliramo kvalitetu.",
     "rights": "Sva prava pridržana."
   },
   "gallery": {

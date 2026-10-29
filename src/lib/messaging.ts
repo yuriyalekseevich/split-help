@@ -62,7 +62,10 @@ function looksLikePhone(value: string) {
 }
 
 function facebookProfileUrl(id: string) {
-  return `fb://profile/${encodeURIComponent(id)}`;
+  if (/^\d+$/.test(id)) {
+    return `https://www.facebook.com/profile.php?id=${id}`;
+  }
+  return `https://www.facebook.com/${encodeURIComponent(id)}`;
 }
 
 function facebookChatUrl(value: string) {
@@ -89,7 +92,7 @@ function facebookChatUrl(value: string) {
 
   if (/^[A-Za-z0-9.]+$/.test(trimmed)) return facebookProfileUrl(trimmed);
 
-  return 'fb://profile';
+  return 'https://www.facebook.com/';
 }
 
 export function buildMessengerLink({
@@ -134,7 +137,6 @@ export function buildMessengerLink({
       return {
         url: facebookChatUrl(contacts.facebook),
         copyToClipboard: true,
-        sameTab: true,
       };
   }
 }

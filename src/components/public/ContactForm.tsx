@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/Textarea';
 
 export function ContactForm() {
   const t = useTranslations('contact');
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'success'>('idle');
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -20,17 +20,13 @@ export function ContactForm() {
     const contact = String(data.get('contact') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
     const link = buildMessengerLink({
-      channel: 'whatsapp',
+      channel: 'email',
       message: t('formMessage', { name, contact, message }),
       contacts: site.contacts,
+      subject: site.brandName,
     });
 
-    const opened = window.open(link.url, '_blank');
-    if (!opened) {
-      window.location.assign(link.url);
-      return;
-    }
-    opened.opener = null;
+    window.location.href = link.url;
     form.reset();
     setStatus('success');
   }
@@ -68,11 +64,6 @@ export function ContactForm() {
             </svg>
           </span>
           <span>{t('success')}</span>
-        </p>
-      ) : null}
-      {status === 'error' ? (
-        <p role="alert" className="text-sm text-coral">
-          {t('error')}
         </p>
       ) : null}
     </form>

@@ -69,8 +69,8 @@
     "submit": "Send message",
     "sending": "Sending…",
     "formMessage": "Hi! My name is {name}. You can reach me at {contact}.\n\n{message}",
-    "success": "WhatsApp opened with your message. Press send in that chat so it reaches us.",
-    "error": "The chat didn't open. Use the WhatsApp button above.",
+    "success": "Your email app opened with the message. Press send so it reaches us.",
+    "error": "The email app didn't open. Use the buttons above.",
     "greeting": "Hi! I'd like to ask about help in Split."
   },
   "service": {
@@ -87,7 +87,7 @@
     "copyFailed": "We couldn't copy it automatically. Open the chat and paste your message there."
   },
   "footer": {
-    "tagline": "Local help in Split. We do the work ourselves.",
+    "tagline": "Assistance in Split. We coordinate the work and ensure quality.",
     "rights": "All rights reserved."
   },
   "gallery": {
