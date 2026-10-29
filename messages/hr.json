@@ -6,9 +6,7 @@
   "nav": {
     "services": "Usluge",
     "info": "Korisno",
-    "reviews": "Iskustva",
     "contact": "Kontakt",
-    "soon": "uskoro",
     "language": "Jezik",
     "home": "Početna",
     "primary": "Izbornik"
@@ -51,12 +49,6 @@
     "featured": "Počnite ovdje",
     "back": "Sva pitanja",
     "newTab": "Otvara se u novoj kartici"
-  },
-  "reviews": {
-    "eyebrow": "Iskustva",
-    "title": "Uskoro",
-    "body": "Skupljamo prve dojmove ljudi kojima smo već pomogli. Uskoro će biti ovdje.",
-    "badge": "Uskoro"
   },
   "contact": {
     "eyebrow": "Kontakt",

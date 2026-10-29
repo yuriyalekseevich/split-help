@@ -8,7 +8,6 @@ import { listCatalogServices } from '@/lib/services/service-catalog.server';
 import { ContactSection } from '@/components/public/ContactSection';
 import { SplitGallery } from '@/components/public/SplitGallery';
 import { InfoTeaser } from '@/components/public/InfoTeaser';
-import { ReviewsTeaser } from '@/components/public/ReviewsTeaser';
 import { ServicesGrid } from '@/components/public/ServicesGrid';
 
 export const dynamic = 'force-dynamic';
@@ -45,7 +44,6 @@ export default async function HomePage({ params }: Props) {
       <SplitGallery />
       <ServicesGrid services={services.success ? services.data : []} failed={!services.success} />
       <InfoTeaser />
-      <ReviewsTeaser />
       <ContactSection />
     </main>
   );

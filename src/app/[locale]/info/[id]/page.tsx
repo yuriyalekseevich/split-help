@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
-import { splitParagraphs } from '@/lib/format';
+import { linkify, splitParagraphs } from '@/lib/format';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { getUsefulInfoById } from '@/lib/services/useful-info.server';
 import { parseUsefulInfoId } from '@/lib/services/useful-info.schema';
@@ -106,8 +106,22 @@ export default async function UsefulInfoPage({ params }: Props) {
       {paragraphs.length > 0 ? (
         <div className="mt-8 grid gap-4">
           {paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-base leading-7 break-words text-ink">
-              {paragraph}
+            <p key={index} className="text-base leading-7 break-words whitespace-pre-line text-ink">
+              {linkify(paragraph).map((part, partIndex) =>
+                part.type === 'link' ? (
+                  <a
+                    key={partIndex}
+                    href={part.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-sea underline decoration-mint decoration-2 underline-offset-4"
+                  >
+                    {part.value}
+                  </a>
+                ) : (
+                  <span key={partIndex}>{part.value}</span>
+                ),
+              )}
             </p>
           ))}
         </div>

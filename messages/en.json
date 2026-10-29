@@ -6,9 +6,7 @@
   "nav": {
     "services": "Services",
     "info": "Info",
-    "reviews": "Reviews",
     "contact": "Contact",
-    "soon": "soon",
     "language": "Language",
     "home": "Home",
     "primary": "Menu"
@@ -51,12 +49,6 @@
     "featured": "Start here",
     "back": "All questions",
     "newTab": "Opens in a new tab"
-  },
-  "reviews": {
-    "eyebrow": "Reviews",
-    "title": "Coming soon",
-    "body": "We're gathering the first reviews from people we've already helped. They'll show up here.",
-    "badge": "Coming soon"
   },
   "contact": {
     "eyebrow": "Contact",

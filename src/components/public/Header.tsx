@@ -2,7 +2,6 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { site } from '@/content/site';
 import { isLocale } from '@/lib/i18n';
 import { Link } from '@/i18n/navigation';
-import { Badge } from '@/components/ui/Badge';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 export async function Header() {
@@ -18,10 +17,6 @@ export async function Header() {
       </Link>
       <Link href="/info" className="transition hover:text-mint">
         {t('info')}
-      </Link>
-      <Link href="/#reviews" className="inline-flex items-center gap-2 transition hover:text-mint">
-        {t('reviews')}
-        <Badge>{t('soon')}</Badge>
       </Link>
       <Link href="/#contact" className="transition hover:text-mint">
         {t('contact')}
