@@ -4,6 +4,8 @@ import { hasLocale } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
+import { Suspense } from 'react';
+import { AnalyticsListener } from '@/components/analytics/AnalyticsListener';
 import { site } from '@/content/site';
 import { routing } from '@/i18n/routing';
 import { Header } from '@/components/public/Header';
@@ -67,6 +69,9 @@ export default async function LocaleLayout({ children, params }: Props) {
           >
             {t('skip')}
           </a>
+          <Suspense fallback={null}>
+            <AnalyticsListener />
+          </Suspense>
           <Header />
           <div className="flex-1">{children}</div>
           <Footer />
