@@ -78,8 +78,14 @@
     "copied": "Poruka je kopirana. Zalijepite je u razgovor.",
     "copyFailed": "Poruku nismo uspjeli automatski kopirati. Otvorite razgovor i zalijepite je ručno."
   },
+  "idea": {
+    "title": "Imate ideju ili prijedlog?",
+    "body": "Rado ćemo porazgovarati. Pišite nam — otvoreni smo za nove ideje, suradnju i neuobičajene zadatke.",
+    "cta": "Razgovarajmo"
+  },
   "footer": {
     "tagline": "Pomoć u Splitu. Koordiniramo rad i kontroliramo kvalitetu.",
+    "idea": "Imate ideju? Pišite nam.",
     "rights": "Sva prava pridržana."
   },
   "gallery": {

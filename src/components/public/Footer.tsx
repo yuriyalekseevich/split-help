@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { site } from '@/content/site';
 import { Link } from '@/i18n/navigation';
+import { ContactHashLink } from './ContactHashLink';
 
 export async function Footer() {
   const t = await getTranslations('footer');
@@ -16,6 +17,9 @@ export async function Footer() {
             {site.brandName}
           </p>
           <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">{t('tagline')}</p>
+          <ContactHashLink className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint">
+            {t('idea')}
+          </ContactHashLink>
         </div>
         <nav aria-label={nav('primary')} className="flex flex-col gap-3 text-sm font-medium text-white/80">
           <Link href="/#services" className="transition hover:text-mint">

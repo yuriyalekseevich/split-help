@@ -7,6 +7,7 @@ import { isLocale, pageMetadata } from '@/lib/i18n';
 import { listCatalogServices } from '@/lib/services/service-catalog.server';
 import { ContactSection } from '@/components/public/ContactSection';
 import { SplitGallery } from '@/components/public/SplitGallery';
+import { IdeaCta } from '@/components/public/IdeaCta';
 import { InfoTeaser } from '@/components/public/InfoTeaser';
 import { ServicesGrid } from '@/components/public/ServicesGrid';
 
@@ -43,6 +44,7 @@ export default async function HomePage({ params }: Props) {
     <main id="content">
       <SplitGallery />
       <ServicesGrid services={services.success ? services.data : []} failed={!services.success} />
+      <IdeaCta />
       <InfoTeaser />
       <ContactSection />
     </main>

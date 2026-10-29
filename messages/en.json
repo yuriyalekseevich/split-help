@@ -78,8 +78,14 @@
     "copied": "Message copied. Paste it into the chat.",
     "copyFailed": "We couldn't copy it automatically. Open the chat and paste your message there."
   },
+  "idea": {
+    "title": "Have an idea or a proposal?",
+    "body": "We're glad to talk it through. Write to us — new ideas, working together, and unusual jobs are all welcome.",
+    "cta": "Let's talk"
+  },
   "footer": {
     "tagline": "Assistance in Split. We coordinate the work and ensure quality.",
+    "idea": "Have an idea? Write to us.",
     "rights": "All rights reserved."
   },
   "gallery": {
