@@ -90,6 +90,7 @@
   },
   "gallery": {
     "label": "Photos of Split",
+    "photos": "Photos",
     "previous": "Previous photo",
     "next": "Next photo",
     "dot": "Show photo {number}"

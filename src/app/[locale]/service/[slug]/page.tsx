@@ -5,8 +5,11 @@ import { routing } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { splitLines } from '@/lib/format';
+import { gallerySlides } from '@/lib/services/gallery-images.schema';
+import { listServiceImages } from '@/lib/services/gallery-images.server';
 import { getCatalogServiceBySlug } from '@/lib/services/service-catalog.server';
 import { parseServiceSlug } from '@/lib/services/service-catalog.schema';
+import { ImageCarousel } from '@/components/public/ImageCarousel';
 import { ServiceImage } from '@/components/public/ServiceImage';
 import { ServiceOrderForm } from '@/components/public/ServiceOrderForm';
 
@@ -72,6 +75,8 @@ export default async function ServicePage({ params }: Props) {
 
   const service = result.data;
   const included = splitLines(service.description);
+  const gallery = await listServiceImages(service.id);
+  const slides = gallery.success ? gallerySlides(gallery.data, service.title) : [];
 
   return (
     <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
@@ -95,11 +100,15 @@ export default async function ServicePage({ params }: Props) {
         </ol>
       </nav>
 
-      <ServiceImage
-        src={service.imageUrl ?? SERVICE_IMAGE_FALLBACK}
-        alt={service.title}
-        className="mt-6 aspect-[16/10] w-full rounded-3xl"
-      />
+      {slides.length > 0 ? (
+        <ImageCarousel slides={slides} className="mt-6 aspect-[16/10] w-full rounded-3xl" />
+      ) : (
+        <ServiceImage
+          src={service.imageUrl ?? SERVICE_IMAGE_FALLBACK}
+          alt={service.title}
+          className="mt-6 aspect-[16/10] w-full rounded-3xl"
+        />
+      )}
 
       <h1 className="mt-6 font-serif text-4xl leading-tight text-ink sm:text-5xl">{service.title}</h1>
 

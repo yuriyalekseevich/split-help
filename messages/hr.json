@@ -90,6 +90,7 @@
   },
   "gallery": {
     "label": "Fotografije Splita",
+    "photos": "Fotografije",
     "previous": "Prethodna fotografija",
     "next": "Sljedeća fotografija",
     "dot": "Prikaži fotografiju {number}"

@@ -40,21 +40,24 @@ export type Database = {
       }
       service_images: {
         Row: {
-          created_at: string
+          created_at: string | null
+          description: string | null
           id: number
           image_url: string
           service_id: number
           sort_order: number | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
+          description?: string | null
           id?: never
           image_url: string
           service_id: number
           sort_order?: number | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
+          description?: string | null
           id?: never
           image_url?: string
           service_id?: number
@@ -293,6 +296,41 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      useful_info_images: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: number
+          image_url: string
+          sort_order: number | null
+          useful_info_id: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: never
+          image_url: string
+          sort_order?: number | null
+          useful_info_id: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: never
+          image_url?: string
+          sort_order?: number | null
+          useful_info_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "useful_info_images_useful_info_id_fkey"
+            columns: ["useful_info_id"]
+            isOneToOne: false
+            referencedRelation: "useful_info"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       useful_info_translations: {
         Row: {

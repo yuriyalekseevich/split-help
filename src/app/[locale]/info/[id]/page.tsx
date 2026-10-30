@@ -3,8 +3,11 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
+import { ImageCarousel } from '@/components/public/ImageCarousel';
 import { linkify, splitParagraphs } from '@/lib/format';
 import { isLocale, pageMetadata } from '@/lib/i18n';
+import { gallerySlides } from '@/lib/services/gallery-images.schema';
+import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
 import { getUsefulInfoById } from '@/lib/services/useful-info.server';
 import { parseUsefulInfoId } from '@/lib/services/useful-info.schema';
 import type { UsefulInfo } from '@/lib/types/database';
@@ -49,8 +52,9 @@ export default async function UsefulInfoPage({ params }: Props) {
   if (id === null) notFound();
 
   setRequestLocale(locale);
-  const [result, t, nav, a11y] = await Promise.all([
+  const [result, gallery, t, nav, a11y] = await Promise.all([
     getUsefulInfoById(id, locale),
+    listUsefulInfoImages(id),
     getTranslations('info'),
     getTranslations('nav'),
     getTranslations('a11y'),
@@ -69,6 +73,7 @@ export default async function UsefulInfoPage({ params }: Props) {
 
   const item = result.data;
   const paragraphs = splitParagraphs(item.description);
+  const slides = gallery.success ? gallerySlides(gallery.data, item.title) : [];
 
   return (
     <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
@@ -92,7 +97,12 @@ export default async function UsefulInfoPage({ params }: Props) {
         </ol>
       </nav>
 
-      {item.image_url ? (
+      {slides.length > 0 ? (
+        <ImageCarousel
+          slides={slides}
+          className="mt-6 aspect-[16/9] w-full rounded-3xl border border-line bg-sea-soft"
+        />
+      ) : item.image_url ? (
         <div className="mt-6 overflow-hidden rounded-3xl border border-line bg-sea-soft">
           {/* Host is chosen per row. The image optimizer would need an open remote allowlist. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}

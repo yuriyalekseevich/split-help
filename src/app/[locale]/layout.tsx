@@ -60,7 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const t = await getTranslations('a11y');
 
   return (
-    <html lang={locale} className={`${sans.variable} h-full`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${sans.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans text-ink antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <a
