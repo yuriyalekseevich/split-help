@@ -2,6 +2,7 @@
 
 import { locales, type Locale } from '@/lib/i18n';
 import { Link, usePathname } from '@/i18n/navigation';
+import { track } from '@/lib/analytics';
 
 export function LanguageSwitcher({
   locale,
@@ -32,6 +33,10 @@ export function LanguageSwitcher({
               locale={code}
               hrefLang={code}
               aria-current={code === locale ? 'page' : undefined}
+              onClick={() => {
+                if (code === locale) return;
+                track('switch_language', { language: code, from_language: locale });
+              }}
               className={code === locale ? current : `transition ${idle}`}
             >
               {code.toUpperCase()}

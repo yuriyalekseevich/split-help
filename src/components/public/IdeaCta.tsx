@@ -12,7 +12,10 @@ export async function IdeaCta() {
           <h2 className="text-2xl text-ink sm:text-3xl">{t('title')}</h2>
           <p className="mt-3 text-base leading-7 text-muted">{t('body')}</p>
         </div>
-        <ContactHashLink className={buttonClass('secondary', 'shrink-0 self-start lg:self-center')}>
+        <ContactHashLink
+          placement="idea"
+          className={buttonClass('secondary', 'shrink-0 self-start lg:self-center')}
+        >
           {t('cta')}
         </ContactHashLink>
       </div>

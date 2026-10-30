@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { buttonClass } from '@/components/ui/Button';
+import { DiscussIdeaLink } from './DiscussIdeaLink';
 
 /** Shown when the photo carousel has nothing to display. */
 export async function Hero() {
@@ -16,12 +17,12 @@ export async function Hero() {
         <a href="#services" className={buttonClass('primary')}>
           {t('ctaServices')}
         </a>
-        <a
-          href="#contact"
+        <DiscussIdeaLink
+          placement="hero"
           className="inline-flex items-center justify-center rounded-full border border-mint px-5 py-3 text-sm font-semibold text-mint transition duration-200 ease-out hover:bg-mint hover:text-night"
         >
           {t('ctaContact')}
-        </a>
+        </DiscussIdeaLink>
       </div>
     </section>
   );

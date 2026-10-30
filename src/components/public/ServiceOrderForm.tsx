@@ -35,6 +35,8 @@ export function ServiceOrderForm({
           message={message}
           subject={`${site.brandName}: ${title}`}
           layout="bar"
+          source="service_order"
+          serviceName={title}
         />
       </div>
       <p className="mt-4 text-sm leading-6 text-muted">{t('reassure')}</p>

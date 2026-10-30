@@ -32,6 +32,7 @@ export async function ServicesGrid({
               <ServiceCard
                 href={`/service/${service.slug}`}
                 title={service.title}
+                slug={service.slug}
                 description={service.subtitle ?? ''}
                 moreLabel={t('more')}
                 priceDescription={service.priceDescription}

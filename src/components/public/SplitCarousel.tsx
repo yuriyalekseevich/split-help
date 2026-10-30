@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { buttonClass } from '@/components/ui/Button';
+import { track } from '@/lib/analytics';
 import type { SplitImage } from '@/lib/services/split-images.schema';
 
 const AUTO_MS = 6000;
@@ -78,7 +79,11 @@ export function SplitCarousel({
           {current.subtitle ? (
             <p className="mt-4 w-full min-w-0 max-w-2xl text-base leading-7 text-white/85 sm:text-lg">{current.subtitle}</p>
           ) : null}
-          <a href="#contact" className={buttonClass('primary', 'pointer-events-auto mt-8')}>
+          <a
+            href="#contact"
+            className={buttonClass('primary', 'pointer-events-auto mt-8')}
+            onClick={() => track('click_discuss_idea', { placement: 'hero' })}
+          >
             {ctaLabel}
           </a>
         </div>

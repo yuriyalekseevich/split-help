@@ -1,4 +1,7 @@
+'use client';
+
 import { Link } from '@/i18n/navigation';
+import { track } from '@/lib/analytics';
 import type { UsefulInfo } from '@/lib/types/database';
 
 function cardLead(item: UsefulInfo): string {
@@ -14,6 +17,7 @@ export function UsefulInfoList({ items }: { items: UsefulInfo[] }) {
         <li key={item.id} className="h-full">
           <Link
             href={`/info/${item.id}`}
+            onClick={() => track('click_info_card', { info_name: item.title, info_id: item.id })}
             className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-paper shadow-sm transition motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea"
           >
             {item.image_url ? (

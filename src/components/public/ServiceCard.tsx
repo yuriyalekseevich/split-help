@@ -1,10 +1,14 @@
+'use client';
+
 import { Link } from '@/i18n/navigation';
 import { buttonClass } from '@/components/ui/Button';
+import { track } from '@/lib/analytics';
 import { ServiceImage } from './ServiceImage';
 
 type Props = {
   href: string;
   title: string;
+  slug: string;
   description: string;
   moreLabel: string;
   priceDescription?: string | null;
@@ -15,6 +19,7 @@ type Props = {
 export function ServiceCard({
   href,
   title,
+  slug,
   description,
   moreLabel,
   priceDescription,
@@ -24,6 +29,7 @@ export function ServiceCard({
   return (
     <Link
       href={href}
+      onClick={() => track('click_service_card', { service_name: title, service_slug: slug })}
       className="group grid items-center gap-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-sea lg:grid-cols-2 lg:gap-16"
     >
       <ServiceImage

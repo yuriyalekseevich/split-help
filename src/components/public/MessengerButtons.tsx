@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { site } from '@/content/site';
+import { track, type AnalyticsProperties } from '@/lib/analytics';
 import {
   buildMessengerLink,
   type MessengerChannel,
@@ -29,6 +30,15 @@ const channelClass: Record<MessengerChannel, string> = {
   email: 'bg-ink text-paper hover:bg-[#2a261f]',
 };
 
+const channelEvent: Record<MessengerChannel, string> = {
+  whatsapp: 'click_whatsapp',
+  telegram: 'click_telegram',
+  facebook: 'click_facebook',
+  email: 'click_email',
+};
+
+type MessengerSource = 'contact' | 'service_order';
+
 function ChannelIcon({ channel }: { channel: MessengerChannel }) {
   const className = 'size-5 shrink-0';
   if (channel === 'whatsapp') return <WhatsAppIcon className={className} />;
@@ -43,6 +53,8 @@ type Props = {
   layout?: 'icon' | 'bar' | 'plain';
   channels?: MessengerChannel[];
   className?: string;
+  source: MessengerSource;
+  serviceName?: string;
 };
 
 export function MessengerButtons({
@@ -51,6 +63,8 @@ export function MessengerButtons({
   layout = 'bar',
   channels = defaultChannels,
   className = '',
+  source,
+  serviceName,
 }: Props) {
   const tChannels = useTranslations('channels');
   const tToast = useTranslations('toast');
@@ -94,6 +108,8 @@ export function MessengerButtons({
           });
           const label = tChannels(channel);
           const external = link.url.startsWith('http') && !link.sameTab;
+          const properties: AnalyticsProperties = { source };
+          if (serviceName) properties.service_name = serviceName;
 
           return (
             <a
@@ -102,19 +118,16 @@ export function MessengerButtons({
               aria-label={label}
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
-              onClick={
-                link.sameTab
-                  ? (event) => {
-                      event.preventDefault();
-                      if (link.copyToClipboard) void copyMessage();
-                      window.location.href = link.url;
-                    }
-                  : link.copyToClipboard
-                    ? () => {
-                        void copyMessage();
-                      }
-                    : undefined
-              }
+              onClick={(event) => {
+                track(channelEvent[channel], properties);
+                if (link.sameTab) {
+                  event.preventDefault();
+                  if (link.copyToClipboard) void copyMessage();
+                  window.location.href = link.url;
+                  return;
+                }
+                if (link.copyToClipboard) void copyMessage();
+              }}
               className={
                 layout === 'icon'
                   ? `inline-flex size-11 items-center justify-center rounded-full transition duration-200 ease-out motion-safe:hover:scale-105 motion-safe:active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea ${channelClass[channel]}`

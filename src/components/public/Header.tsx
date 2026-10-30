@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { site } from '@/content/site';
 import { isLocale } from '@/lib/i18n';
 import { Link } from '@/i18n/navigation';
+import { DiscussIdeaLink } from './DiscussIdeaLink';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 export async function Header() {
@@ -48,12 +49,12 @@ export async function Header() {
         </nav>
         <div className="flex items-center gap-3 sm:gap-4">
           <LanguageSwitcher locale={locale} label={t('language')} tone="light" />
-          <Link
-            href="/#contact"
+          <DiscussIdeaLink
+            placement="header"
             className="hidden items-center justify-center rounded-full border border-mint px-4 py-2 text-sm font-semibold whitespace-nowrap text-mint transition duration-200 ease-out hover:bg-mint hover:text-night motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint sm:inline-flex"
           >
             {hero('ctaContact')}
-          </Link>
+          </DiscussIdeaLink>
         </div>
       </div>
       <nav

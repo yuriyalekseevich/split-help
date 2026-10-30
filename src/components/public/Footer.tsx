@@ -17,7 +17,10 @@ export async function Footer() {
             {site.brandName}
           </p>
           <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">{t('tagline')}</p>
-          <ContactHashLink className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint">
+          <ContactHashLink
+            placement="footer"
+            className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
+          >
             {t('idea')}
           </ContactHashLink>
         </div>
