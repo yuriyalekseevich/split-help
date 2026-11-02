@@ -23,5 +23,5 @@ npm test
 - Brand, domain, and contact handles: `src/content/site.ts`
 - Service catalog: Supabase tables `services` and `service_translations`, read through `listCatalogServices` / `getCatalogServiceBySlug`
 - Home carousel: Supabase tables `split_images` and `split_image_translations` (title and subtitle per language), read through `listSplitImages`
-- Useful-info notes: Supabase tables `useful_info` and `useful_info_translations`, read through `listUsefulInfo` / `getUsefulInfoById`. A file copy still lives in `src/infrastructure/data/info-topics.ts`
+- Useful-info notes: Supabase tables `useful_info` and `useful_info_translations`, read through `listUsefulInfo` / `getUsefulInfoBySlug`. A file copy still lives in `src/infrastructure/data/info-topics.ts`
 - Interface copy: `messages/*.json`

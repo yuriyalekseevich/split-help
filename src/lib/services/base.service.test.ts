@@ -7,6 +7,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 const row = {
   id: 4,
+  slug: 'gde-iskat-zhile',
   title: 'Где искать жильё',
   subtitle: 'Сначала Njuškalo',
   image_url: 'https://cdn.example.com/flat.jpg',
@@ -62,6 +63,7 @@ describe('parseUsefulInfoRow', () => {
   it('accepts a row that only has the required fields', () => {
     const parsed = parseUsefulInfoRow({
       id: 4,
+      slug: 'gde-iskat-zhile',
       title: '  Где искать жильё  ',
       description: '  Откройте список и проверьте город.  ',
       created_at: row.created_at,
@@ -92,18 +94,21 @@ describe('assembleUsefulInfo', () => {
   const articles = [
     {
       id: 5,
+      slug: 'finding-accommodation',
       image_url: 'https://broker.hr/flat.jpg',
       created_at: '2026-10-02T15:25:07.395Z',
       status: 'published',
     },
     {
       id: 3,
+      slug: 'mup-appointment',
       image_url: 'https://www.redomat.com/ticket.jpg',
       created_at: '2026-10-02T15:22:41.658Z',
       status: 'published',
     },
     {
       id: 9,
+      slug: 'hidden-draft',
       image_url: null,
       created_at: '2026-10-01T10:00:00.000Z',
       status: 'draft',

@@ -31,3 +31,12 @@ export const listUsefulInfo = cache((languageCode: string): Promise<Result<Usefu
 export const getUsefulInfoById = cache((id: number, languageCode: string): Promise<Result<UsefulInfo | null>> => {
   return withUsefulInfoService('getById', (service) => service.getById(id, languageCode), { id, languageCode });
 });
+
+export const getUsefulInfoBySlug = cache(
+  (slug: string, languageCode: string): Promise<Result<UsefulInfo | null>> => {
+    return withUsefulInfoService('getBySlug', (service) => service.getBySlug(slug, languageCode), {
+      slug,
+      languageCode,
+    });
+  },
+);

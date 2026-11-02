@@ -16,7 +16,7 @@ export function UsefulInfoList({ items }: { items: UsefulInfo[] }) {
       {items.map((item) => (
         <li key={item.id} className="h-full">
           <Link
-            href={`/info/${item.id}`}
+            href={`/info/${item.slug}`}
             onClick={() => track('click_info_card', { info_name: item.title, info_id: item.id })}
             className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-paper shadow-sm transition motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sea"
           >

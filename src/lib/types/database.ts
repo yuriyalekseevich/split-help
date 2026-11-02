@@ -27,6 +27,7 @@ export type UsefulInfoUpdate = TablesUpdate<'useful_info'>;
  */
 export type UsefulInfo = {
   id: number;
+  slug: string;
   title: string;
   subtitle: string | null;
   image_url: string | null;

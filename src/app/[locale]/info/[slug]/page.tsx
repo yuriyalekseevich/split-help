@@ -8,14 +8,14 @@ import { linkify, splitParagraphs } from '@/lib/format';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
-import { getUsefulInfoById } from '@/lib/services/useful-info.server';
-import { parseUsefulInfoId } from '@/lib/services/useful-info.schema';
+import { getUsefulInfoBySlug } from '@/lib/services/useful-info.server';
+import { parseUsefulInfoSlug } from '@/lib/services/useful-info.schema';
 import type { UsefulInfo } from '@/lib/types/database';
 
 export const dynamic = 'force-dynamic';
 
 type Props = {
-  params: Promise<{ locale: string; id: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 function metaDescription(item: UsefulInfo) {
@@ -24,37 +24,36 @@ function metaDescription(item: UsefulInfo) {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { locale, id: rawId } = await params;
+  const { locale, slug: rawSlug } = await params;
   if (!isLocale(locale)) return {};
 
-  const id = parseUsefulInfoId(rawId);
-  if (id === null) return {};
+  const slug = parseUsefulInfoSlug(rawSlug);
+  if (slug === null) return {};
 
-  const result = await getUsefulInfoById(id, locale);
+  const result = await getUsefulInfoBySlug(slug, locale);
   if (!result.success || !result.data) return {};
 
   return pageMetadata({
     locale,
     title: result.data.title,
     description: metaDescription(result.data),
-    path: `/info/${result.data.id}`,
+    path: `/info/${result.data.slug}`,
     ...(result.data.image_url?.startsWith('https:') ? { image: result.data.image_url } : {}),
   });
 }
 
 export default async function UsefulInfoPage({ params }: Props) {
-  const { locale, id: rawId } = await params;
+  const { locale, slug: rawSlug } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  const id = parseUsefulInfoId(rawId);
-  if (id === null) notFound();
+  const slug = parseUsefulInfoSlug(rawSlug);
+  if (slug === null) notFound();
 
   setRequestLocale(locale);
-  const [result, gallery, t, nav, a11y] = await Promise.all([
-    getUsefulInfoById(id, locale),
-    listUsefulInfoImages(id),
+  const [result, t, nav, a11y] = await Promise.all([
+    getUsefulInfoBySlug(slug, locale),
     getTranslations('info'),
     getTranslations('nav'),
     getTranslations('a11y'),
@@ -72,6 +71,7 @@ export default async function UsefulInfoPage({ params }: Props) {
   if (!result.data) notFound();
 
   const item = result.data;
+  const gallery = await listUsefulInfoImages(item.id);
   const paragraphs = splitParagraphs(item.description);
   const slides = gallery.success ? gallerySlides(gallery.data, item.title) : [];
 

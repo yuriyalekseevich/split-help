@@ -7,7 +7,11 @@ const LIMITS = {
   title: 500,
   subtitle: 1000,
   description: 50_000,
+  slug: 160,
 } as const;
+
+/** Public article URLs use a lowercase slug. Anything else is not an article page. */
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function emptyToNull(value: unknown): unknown {
   if (value === undefined || value === null) return null;
@@ -46,6 +50,7 @@ const optionalImageUrl = z.preprocess(
 
 export const usefulInfoRowSchema = z.object({
   id: idSchema,
+  slug: z.string().trim().regex(SLUG_PATTERN).max(LIMITS.slug),
   title: requiredText(LIMITS.title),
   subtitle: optionalText(LIMITS.subtitle),
   image_url: optionalImageUrl,
@@ -79,6 +84,7 @@ export function parseUsefulInfoRow(input: unknown): ParseOutcome<UsefulInfo> {
 
 export type UsefulInfoArticleSource = {
   id: number;
+  slug: string | null;
   image_url: string | null;
   created_at: string;
   status: string;
@@ -107,7 +113,8 @@ function pickTranslation(
 
 /**
  * Published rows only. Text comes from the requested language, then the default language.
- * An article with neither translation is left out. Invalid text or image fails the whole list.
+ * An article with no translation, or with no public slug, is left out.
+ * Invalid text or image fails the whole list.
  */
 export function assembleUsefulInfo(
   articles: UsefulInfoArticleSource[],
@@ -125,11 +132,14 @@ export function assembleUsefulInfo(
   const data: UsefulInfo[] = [];
   for (const article of articles) {
     if (article.status !== PUBLISHED_STATUS) continue;
+    const slug = article.slug === null ? null : parseUsefulInfoSlug(article.slug);
+    if (slug === null) continue;
     const chosen = pickTranslation(byArticle.get(article.id) ?? [], languageCode, fallbackLanguageCode);
     if (!chosen) continue;
 
     const parsed = parseUsefulInfoRow({
       id: article.id,
+      slug,
       title: chosen.title,
       subtitle: chosen.subtitle,
       image_url: article.image_url,
@@ -158,4 +168,9 @@ export function parseUsefulInfoId(value: string): number | null {
   const id = Number(value);
   if (!Number.isSafeInteger(id) || id <= 0) return null;
   return id;
+}
+
+export function parseUsefulInfoSlug(value: string): string | null {
+  if (!SLUG_PATTERN.test(value)) return null;
+  return value;
 }

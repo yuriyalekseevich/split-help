@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { alternatesFor, locales } from '@/lib/i18n';
 import { parseServiceSlug } from '@/lib/services/service-catalog.schema';
+import { parseUsefulInfoSlug } from '@/lib/services/useful-info.schema';
 import { readSupabasePublicEnv } from '@/lib/supabase/env';
 import type { Database } from '@/lib/types/supabase';
 
@@ -57,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const [articles, articleText, services, serviceText] = await Promise.all([
       supabase
         .from('useful_info')
-        .select('id, updated_at, created_at')
+        .select('id, slug, updated_at, created_at')
         .eq('status', PUBLISHED),
       supabase.from('useful_info_translations').select('useful_info_id'),
       supabase
@@ -84,9 +85,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const articleIds = new Set(articleText.data.map((row) => row.useful_info_id));
     for (const article of articles.data) {
       if (!articleIds.has(article.id)) continue;
+      const slug = article.slug === null ? null : parseUsefulInfoSlug(article.slug);
+      if (slug === null) continue;
       pages.push(
         ...localized(
-          `/info/${article.id}`,
+          `/info/${slug}`,
           'monthly',
           0.7,
           modifiedAt(article.updated_at, article.created_at),
