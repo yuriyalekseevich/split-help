@@ -38,6 +38,59 @@ export type Database = {
         }
         Relationships: []
       }
+      legal_pages: {
+        Row: {
+          created_at: string | null
+          id: number
+          slug: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          slug: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          slug?: string
+        }
+        Relationships: []
+      }
+      legal_pages_translations: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: number
+          language_code: string
+          legal_page_id: number
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: number
+          language_code: string
+          legal_page_id: number
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: number
+          language_code?: string
+          legal_page_id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_pages_translations_legal_page_id_fkey"
+            columns: ["legal_page_id"]
+            isOneToOne: false
+            referencedRelation: "legal_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       service_images: {
         Row: {
           created_at: string | null

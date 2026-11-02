@@ -143,3 +143,33 @@ h3 {
     animation: none;
   }
 }
+
+.prose {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.prose h2 {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.prose p,
+.prose li {
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-wrap: break-word;
+}
+
+.prose ul {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.prose strong {
+  font-weight: 700;
+}

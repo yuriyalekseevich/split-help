@@ -4,4 +4,5 @@ export const noopAnalytics: AnalyticsProvider = {
   pageview() {},
   pageleave() {},
   track() {},
+  async syncConsent() {},
 };

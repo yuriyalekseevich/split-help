@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { CookieSettingsButton } from '@/components/consent/CookieSettingsButton';
 import { site } from '@/content/site';
 import { Link } from '@/i18n/navigation';
 import { ContactHashLink } from './ContactHashLink';
@@ -34,6 +35,13 @@ export async function Footer() {
           <Link href="/#contact" className="transition hover:text-mint">
             {nav('contact')}
           </Link>
+          <Link href="/privacy-policy" className="transition hover:text-mint">
+            {t('privacy')}
+          </Link>
+          <Link href="/cookie-policy" className="transition hover:text-mint">
+            {t('cookies')}
+          </Link>
+          <CookieSettingsButton label={t('cookieSettings')} />
         </nav>
         <p className="text-sm text-white/50">
           © {year} {site.brandName}. {t('rights')}

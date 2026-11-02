@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import { posthogInitOptions } from '@/lib/analytics/posthog';
 import { readAnalyticsConfig } from '@/lib/analytics/env';
 import { createAnalyticsProvider } from '@/lib/analytics';
 import { noopAnalytics } from '@/lib/analytics/noop';
@@ -34,6 +35,12 @@ describe('analytics config', () => {
       key: 'phc_test',
       host: 'https://eu.i.posthog.com',
     });
+  });
+
+  it('starts PostHog in cookieless mode until the visitor accepts cookies', () => {
+    expect(posthogInitOptions({ key: 'phc_test', host: 'https://eu.i.posthog.com' }).cookieless_mode).toBe(
+      'on_reject',
+    );
   });
 
   it('uses the no-op provider when analytics is off', () => {

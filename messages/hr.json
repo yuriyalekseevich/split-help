@@ -86,7 +86,10 @@
   "footer": {
     "tagline": "Pomoć u Splitu. Koordiniramo rad i kontroliramo kvalitetu.",
     "idea": "Imate ideju? Pišite nam.",
-    "rights": "Sva prava pridržana."
+    "rights": "Sva prava pridržana.",
+    "privacy": "Politika privatnosti",
+    "cookies": "Politika kolačića",
+    "cookieSettings": "Postavke kolačića"
   },
   "gallery": {
     "label": "Fotografije Splita",
@@ -110,5 +113,20 @@
     "title": "Stranica nije pronađena",
     "body": "Te stranice nema. Krenite od popisa usluga.",
     "back": "Natrag na početnu"
+  },
+  "consent": {
+    "title": "Kolačići",
+    "body": "Analitičke kolačiće spremamo samo ako pristanete. Ako ih odbijete, posjete se i dalje broje, ali bez kolačića. Odabir možete kasnije promijeniti.",
+    "accept": "Prihvati sve",
+    "reject": "Odbij sve",
+    "privacy": "Politika privatnosti",
+    "cookies": "Politika kolačića"
+  },
+  "policies": {
+    "privacyTitle": "Politika privatnosti",
+    "privacyDescription": "Kako Split Help postupa s osobnim podacima.",
+    "cookiesTitle": "Politika kolačića",
+    "cookiesDescription": "Kako Split Help koristi kolačiće.",
+    "loadError": "Stranicu nije moguće učitati. Osvježite je i pokušajte ponovno."
   }
 }

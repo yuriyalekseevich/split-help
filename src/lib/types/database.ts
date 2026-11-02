@@ -34,3 +34,11 @@ export type UsefulInfo = {
   description: string;
   created_at: string;
 };
+
+/** Flat legal page. Title and content live on `legal_pages_translations`. */
+export type LegalPage = {
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
+};

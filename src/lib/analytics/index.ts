@@ -1,3 +1,4 @@
+import type { ConsentChoice } from '@/lib/consent';
 import { readAnalyticsConfig, type AnalyticsConfig } from './env';
 import { noopAnalytics } from './noop';
 import type { AnalyticsProperties, AnalyticsProvider } from './types';
@@ -21,6 +22,9 @@ function createLazyPostHogProvider(config: AnalyticsConfig): AnalyticsProvider {
     },
     track(name, properties) {
       void load().then((provider) => provider.track(name, properties));
+    },
+    syncConsent(choice) {
+      return load().then((provider) => provider.syncConsent(choice));
     },
   };
 }
@@ -49,4 +53,8 @@ export function pageleave(): void {
 
 export function track(name: string, properties?: AnalyticsProperties): void {
   client().track(name, properties);
+}
+
+export function syncConsent(choice: ConsentChoice): Promise<void> {
+  return client().syncConsent(choice);
 }

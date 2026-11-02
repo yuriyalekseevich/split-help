@@ -1,13 +1,17 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
+import { cookies } from 'next/headers';
 import { hasLocale } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { Suspense } from 'react';
 import { AnalyticsListener } from '@/components/analytics/AnalyticsListener';
+import { CookieBanner } from '@/components/consent/CookieBanner';
+import { CookieConsentProvider } from '@/components/consent/CookieConsentProvider';
 import { site } from '@/content/site';
 import { routing } from '@/i18n/routing';
+import { CONSENT_COOKIE_NAME, parseConsent } from '@/lib/consent';
 import { Header } from '@/components/public/Header';
 import { Footer } from '@/components/public/Footer';
 import { FloatingWhatsApp } from '@/components/public/FloatingWhatsApp';
@@ -58,24 +62,29 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const messages = await getMessages();
   const t = await getTranslations('a11y');
+  const cookieStore = await cookies();
+  const initialConsent = parseConsent(cookieStore.get(CONSENT_COOKIE_NAME)?.value);
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" className={`${sans.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans text-ink antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-paper focus:px-4 focus:py-2"
-          >
-            {t('skip')}
-          </a>
-          <Suspense fallback={null}>
-            <AnalyticsListener />
-          </Suspense>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-          <FloatingWhatsApp />
+          <CookieConsentProvider initialChoice={initialConsent}>
+            <a
+              href="#content"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-paper focus:px-4 focus:py-2"
+            >
+              {t('skip')}
+            </a>
+            <Suspense fallback={null}>
+              <AnalyticsListener />
+            </Suspense>
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+            <FloatingWhatsApp />
+            <CookieBanner />
+          </CookieConsentProvider>
         </NextIntlClientProvider>
       </body>
     </html>

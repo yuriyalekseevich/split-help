@@ -86,7 +86,10 @@
   "footer": {
     "tagline": "Assistance in Split. We coordinate the work and ensure quality.",
     "idea": "Have an idea? Write to us.",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "cookieSettings": "Cookie settings"
   },
   "gallery": {
     "label": "Photos of Split",
@@ -110,5 +113,20 @@
     "title": "Page not found",
     "body": "That page isn't here. Start from the list of services.",
     "back": "Back home"
+  },
+  "consent": {
+    "title": "Cookies",
+    "body": "Analytics cookies are stored only if you accept. If you reject them, visits are still counted without cookies. You can change this later.",
+    "accept": "Accept all",
+    "reject": "Reject all",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy"
+  },
+  "policies": {
+    "privacyTitle": "Privacy policy",
+    "privacyDescription": "How Split Help handles personal data.",
+    "cookiesTitle": "Cookie policy",
+    "cookiesDescription": "How Split Help uses cookies.",
+    "loadError": "This page could not be loaded. Refresh the page and try again."
   }
 }

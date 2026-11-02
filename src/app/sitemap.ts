@@ -43,6 +43,8 @@ function staticRoutes(): MetadataRoute.Sitemap {
   return [
     ...localized('', 'weekly', 1),
     ...localized('/info', 'monthly', 0.8),
+    ...localized('/privacy-policy', 'monthly', 0.3),
+    ...localized('/cookie-policy', 'monthly', 0.3),
   ];
 }
 
