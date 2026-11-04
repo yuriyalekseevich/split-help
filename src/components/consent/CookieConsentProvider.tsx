@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { pageview, syncConsent } from '@/lib/analytics';
+import { syncConsent } from '@/lib/analytics';
 import { consentCookie, parseConsent, readConsentCookie, CONSENT_COOKIE_NAME, type ConsentChoice } from '@/lib/consent';
 
 type Status = ConsentChoice | 'pending';
@@ -40,7 +40,7 @@ export function CookieConsentProvider({
     try {
       document.cookie = consentCookie(next, window.location.protocol === 'https:');
     } catch {
-      // A sandboxed frame can refuse document.cookie. The form post still records the choice.
+      // A sandboxed frame can refuse document.cookie. localStorage still keeps the choice.
     }
     try {
       localStorage.setItem(CONSENT_COOKIE_NAME, next);
@@ -49,10 +49,10 @@ export function CookieConsentProvider({
     }
     setChoice(next);
     setReopened(false);
-    const path = `${window.location.pathname}${window.location.search}`;
-    void syncConsent(next)
-      .then(() => pageview(path))
-      .catch(() => {});
+    // Start opt-in/opt-out before the listener's pageview attaches, so capture runs after consent.
+    void syncConsent(next).catch((error: unknown) => {
+      console.error('PostHog consent sync failed', error);
+    });
   }
 
   const value: CookieConsentContextValue = {

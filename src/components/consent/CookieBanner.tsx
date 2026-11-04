@@ -1,5 +1,6 @@
 'use client';
 
+import type { MouseEvent } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -7,6 +8,14 @@ import { useCookieConsent } from './CookieConsentProvider';
 
 const choiceButton =
   'inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-mint bg-transparent px-5 py-3 text-sm font-semibold text-ink transition hover:bg-mint/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea';
+
+/** The form is the no-JS fallback. With JS, stay on the page so PostHog can finish sending. */
+function chooseWithoutNavigation(choose: () => void) {
+  return (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    choose();
+  };
+}
 
 export function CookieBanner() {
   const { bannerOpen, accept, reject } = useCookieConsent();
@@ -46,14 +55,14 @@ export function CookieBanner() {
             <form action="/api/consent" method="post" className="flex flex-1">
               <input type="hidden" name="redirect" value={pathname} />
               <input type="hidden" name="choice" value="rejected" />
-              <button type="submit" onClick={reject} className={choiceButton}>
+              <button type="submit" onClick={chooseWithoutNavigation(reject)} className={choiceButton}>
                 {t('reject')}
               </button>
             </form>
             <form action="/api/consent" method="post" className="flex flex-1">
               <input type="hidden" name="redirect" value={pathname} />
               <input type="hidden" name="choice" value="accepted" />
-              <button type="submit" onClick={accept} className={choiceButton}>
+              <button type="submit" onClick={chooseWithoutNavigation(accept)} className={choiceButton}>
                 {t('accept')}
               </button>
             </form>

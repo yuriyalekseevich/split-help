@@ -37,7 +37,7 @@ describe('analytics config', () => {
     });
   });
 
-  it('starts PostHog in cookieless mode until the visitor accepts cookies', () => {
+  it('counts a rejection without cookies', () => {
     expect(posthogInitOptions({ key: 'phc_test', host: 'https://eu.i.posthog.com' }).cookieless_mode).toBe(
       'on_reject',
     );

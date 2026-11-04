@@ -1,7 +1,7 @@
 import type { AnalyticsConfig } from './env';
 import { consentSyncAction } from './consent';
-import { readConsentCookie, type ConsentChoice } from '@/lib/consent';
-import type { AnalyticsProvider } from './types';
+import { CONSENT_COOKIE_NAME, parseConsent, readConsentCookie, type ConsentChoice } from '@/lib/consent';
+import type { AnalyticsProperties, AnalyticsProvider } from './types';
 
 const POSTHOG_PAGEVIEW = '$pageview';
 const POSTHOG_PAGELEAVE = '$pageleave';
@@ -26,11 +26,18 @@ type ConsentClient = {
   opt_in_capturing: () => void;
   opt_out_capturing: () => void;
   get_explicit_consent_status: () => 'granted' | 'denied' | 'pending';
+  is_capturing: () => boolean;
 };
 
 function storedConsent(): ConsentChoice | null {
   if (typeof document === 'undefined') return null;
-  return readConsentCookie(document.cookie);
+  const fromCookie = readConsentCookie(document.cookie);
+  if (fromCookie) return fromCookie;
+  try {
+    return parseConsent(localStorage.getItem(CONSENT_COOKIE_NAME));
+  } catch {
+    return null;
+  }
 }
 
 function applyConsent(posthog: ConsentClient, choice: ConsentChoice) {
@@ -54,19 +61,28 @@ export function createPostHogProvider(config: AnalyticsConfig): AnalyticsProvide
     return ready;
   }
 
+  function send(name: string, properties?: AnalyticsProperties) {
+    const choice = storedConsent();
+    // A visit with no choice yet must not boot PostHog. `on_reject` drops those events.
+    if (!choice && !ready) return;
+    void load().then((posthog) => {
+      if (choice) applyConsent(posthog, choice);
+      if (!posthog.is_capturing()) return;
+      posthog.capture(name, properties);
+    });
+  }
+
   return {
     pageview(path) {
-      void load().then((posthog) => {
-        posthog.capture(POSTHOG_PAGEVIEW, {
-          $current_url: new URL(path, window.location.origin).href,
-        });
+      send(POSTHOG_PAGEVIEW, {
+        $current_url: new URL(path, window.location.origin).href,
       });
     },
     pageleave() {
-      void load().then((posthog) => posthog.capture(POSTHOG_PAGELEAVE));
+      send(POSTHOG_PAGELEAVE);
     },
     track(name, properties) {
-      void load().then((posthog) => posthog.capture(name, properties));
+      send(name, properties);
     },
     syncConsent(choice) {
       return load().then((posthog) => {
