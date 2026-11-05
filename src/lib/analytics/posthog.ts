@@ -6,9 +6,14 @@ import type { AnalyticsProperties, AnalyticsProvider } from './types';
 const POSTHOG_PAGEVIEW = '$pageview';
 const POSTHOG_PAGELEAVE = '$pageleave';
 
-export function posthogInitOptions(config: AnalyticsConfig) {
+export function posthogInitOptions(
+  // Callers still pass AnalyticsConfig. Ingestion is fixed to the /ingest proxy.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  config: AnalyticsConfig,
+) {
   return {
-    api_host: config.host,
+    api_host: '/ingest',
+    ui_host: 'https://eu.posthog.com',
     autocapture: false,
     capture_pageview: false,
     capture_pageleave: false,

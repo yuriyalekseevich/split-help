@@ -38,9 +38,10 @@ describe('analytics config', () => {
   });
 
   it('counts a rejection without cookies', () => {
-    expect(posthogInitOptions({ key: 'phc_test', host: 'https://eu.i.posthog.com' }).cookieless_mode).toBe(
-      'on_reject',
-    );
+    const options = posthogInitOptions({ key: 'phc_test', host: 'https://eu.i.posthog.com' });
+    expect(options.cookieless_mode).toBe('on_reject');
+    expect(options.api_host).toBe('/ingest');
+    expect(options.ui_host).toBe('https://eu.posthog.com');
   });
 
   it('uses the no-op provider when analytics is off', () => {
