@@ -29,6 +29,17 @@ type ConsentClient = {
   is_capturing: () => boolean;
 };
 
+/** Cookieless opt-out deletes the SDK manager, and the next `$pageview` then throws before the request. */
+function ensurePageViewManager(posthog: { pageViewManager?: unknown }) {
+  if (posthog.pageViewManager) return;
+  posthog.pageViewManager = {
+    doPageView: (_timestamp: Date, pageViewId: string) => ({ $pageview_id: pageViewId }),
+    doPageLeave: () => ({}),
+    doEvent: () => ({}),
+    destroy() {},
+  };
+}
+
 function storedConsent(): ConsentChoice | null {
   if (typeof document === 'undefined') return null;
   const fromCookie = readConsentCookie(document.cookie);
@@ -65,11 +76,19 @@ export function createPostHogProvider(config: AnalyticsConfig): AnalyticsProvide
     const choice = storedConsent();
     // A visit with no choice yet must not boot PostHog. `on_reject` drops those events.
     if (!choice && !ready) return;
-    void load().then((posthog) => {
-      if (choice) applyConsent(posthog, choice);
-      if (!posthog.is_capturing()) return;
-      posthog.capture(name, properties);
-    });
+    void load()
+      .then((posthog) => {
+        if (choice) applyConsent(posthog, choice);
+        if (!posthog.is_capturing()) {
+          console.warn('PostHog capture skipped', name, posthog.get_explicit_consent_status());
+          return;
+        }
+        ensurePageViewManager(posthog);
+        posthog.capture(name, properties, { send_instantly: true });
+      })
+      .catch((error: unknown) => {
+        console.error('PostHog capture failed', name, error);
+      });
   }
 
   return {

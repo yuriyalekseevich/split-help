@@ -1,6 +1,6 @@
 'use client';
 
-import type { MouseEvent } from 'react';
+import type { FormEvent } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -9,9 +9,9 @@ import { useCookieConsent } from './CookieConsentProvider';
 const choiceButton =
   'inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-mint bg-transparent px-5 py-3 text-sm font-semibold text-ink transition hover:bg-mint/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea';
 
-/** The form is the no-JS fallback. With JS, stay on the page so PostHog can finish sending. */
+/** The form is the no-JS fallback. With JS, cancel submit so PostHog can finish sending. */
 function chooseWithoutNavigation(choose: () => void) {
-  return (event: MouseEvent<HTMLButtonElement>) => {
+  return (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     choose();
   };
@@ -52,17 +52,17 @@ export function CookieBanner() {
             </p>
           </div>
           <div className="flex w-full gap-3 sm:w-80">
-            <form action="/api/consent" method="post" className="flex flex-1">
+            <form action="/api/consent" method="post" className="flex flex-1" onSubmit={chooseWithoutNavigation(reject)}>
               <input type="hidden" name="redirect" value={pathname} />
               <input type="hidden" name="choice" value="rejected" />
-              <button type="submit" onClick={chooseWithoutNavigation(reject)} className={choiceButton}>
+              <button type="submit" className={choiceButton}>
                 {t('reject')}
               </button>
             </form>
-            <form action="/api/consent" method="post" className="flex flex-1">
+            <form action="/api/consent" method="post" className="flex flex-1" onSubmit={chooseWithoutNavigation(accept)}>
               <input type="hidden" name="redirect" value={pathname} />
               <input type="hidden" name="choice" value="accepted" />
-              <button type="submit" onClick={chooseWithoutNavigation(accept)} className={choiceButton}>
+              <button type="submit" className={choiceButton}>
                 {t('accept')}
               </button>
             </form>
