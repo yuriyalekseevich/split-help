@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { supportRecipient } from '@/lib/contact-email';
 import { ContactForm } from './ContactForm';
 import { MessengerButtons } from './MessengerButtons';
 
@@ -16,7 +17,7 @@ export async function ContactSection() {
         </div>
       </div>
       <div className="mx-5 mb-8 rounded-[2rem] bg-mint px-6 py-10 sm:mx-8 sm:px-10 lg:mx-0 lg:mb-0 lg:rounded-none lg:rounded-l-[4.5rem] lg:px-14 lg:py-20">
-        <ContactForm />
+        <ContactForm email={supportRecipient()} />
       </div>
     </section>
   );

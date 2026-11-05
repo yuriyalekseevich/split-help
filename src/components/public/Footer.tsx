@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { CookieSettingsButton } from '@/components/consent/CookieSettingsButton';
-import { site } from '@/content/site';
+import { emails, site } from '@/content/site';
 import { Link } from '@/i18n/navigation';
 import { ContactHashLink } from './ContactHashLink';
 
@@ -18,6 +18,12 @@ export async function Footer() {
             {site.brandName}
           </p>
           <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">{t('tagline')}</p>
+          <a
+            href={`mailto:${emails.info}`}
+            className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
+          >
+            {emails.info}
+          </a>
           <ContactHashLink
             placement="footer"
             className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"

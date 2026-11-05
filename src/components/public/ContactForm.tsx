@@ -2,13 +2,13 @@
 
 import { useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
-import { site } from '@/content/site';
+import { emails, site } from '@/content/site';
 import { buildMessengerLink } from '@/lib/messaging';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 
-export function ContactForm() {
+export function ContactForm({ email = emails.support }: { email?: string }) {
   const t = useTranslations('contact');
   const [status, setStatus] = useState<'idle' | 'success'>('idle');
 
@@ -22,7 +22,7 @@ export function ContactForm() {
     const link = buildMessengerLink({
       channel: 'email',
       message: t('formMessage', { name, contact, message }),
-      contacts: site.contacts,
+      contacts: { ...site.contacts, email },
       subject: site.brandName,
     });
 

@@ -10,6 +10,13 @@ export type LegalBlock =
 const BULLET = /^[•●∙]\s*/;
 const ONLY_BOLD = /^\*\*([^*]+)\*\*$/;
 const BOLD = /\*\*([^*]+)\*\*/g;
+const OWN_INBOX =
+  /(?:maliyov533@gmail\.com|(?:info|support|partners)@split-help\.com)/gi;
+
+/** Legal pages use the billing inbox, including older copies that name another address. */
+export function withLegalContact(content: string, billing = 'billing@split-help.com') {
+  return content.replace(OWN_INBOX, billing);
+}
 
 /** `**bold**` inside a line. Unmatched asterisks stay as text. */
 export function legalInline(text: string): InlinePart[] {

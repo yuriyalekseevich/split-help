@@ -55,6 +55,7 @@ type Props = {
   className?: string;
   source: MessengerSource;
   serviceName?: string;
+  email?: string;
 };
 
 export function MessengerButtons({
@@ -65,6 +66,7 @@ export function MessengerButtons({
   className = '',
   source,
   serviceName,
+  email,
 }: Props) {
   const tChannels = useTranslations('channels');
   const tToast = useTranslations('toast');
@@ -103,7 +105,7 @@ export function MessengerButtons({
           const link = buildMessengerLink({
             channel,
             message,
-            contacts: site.contacts,
+            contacts: { ...site.contacts, email: email ?? site.contacts.email },
             subject,
           });
           const label = tChannels(channel);

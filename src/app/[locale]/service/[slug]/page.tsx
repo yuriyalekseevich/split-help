@@ -12,6 +12,7 @@ import { parseServiceSlug } from '@/lib/services/service-catalog.schema';
 import { ImageCarousel } from '@/components/public/ImageCarousel';
 import { ServiceImage } from '@/components/public/ServiceImage';
 import { ServiceOrderForm } from '@/components/public/ServiceOrderForm';
+import { supportRecipient } from '@/lib/contact-email';
 
 const SERVICE_IMAGE_FALLBACK = '/placeholder-service.svg';
 
@@ -130,7 +131,7 @@ export default async function ServicePage({ params }: Props) {
         </p>
       ) : null}
 
-      <ServiceOrderForm locale={locale} title={service.title} />
+      <ServiceOrderForm locale={locale} title={service.title} email={supportRecipient()} />
 
       <p className="mt-8">
         <Link href="/" className="text-sm font-semibold text-sea hover:underline">

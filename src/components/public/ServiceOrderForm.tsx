@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { site } from '@/content/site';
+import { emails, site } from '@/content/site';
 import type { Locale } from '@/lib/i18n';
 import { buildOrderMessage } from '@/lib/messaging';
 import { Textarea } from '@/components/ui/Textarea';
@@ -11,9 +11,11 @@ import { MessengerButtons } from './MessengerButtons';
 export function ServiceOrderForm({
   locale,
   title,
+  email = emails.support,
 }: {
   locale: Locale;
   title: string;
+  email?: string;
 }) {
   const t = useTranslations('service');
   const [comments, setComments] = useState('');
@@ -37,6 +39,7 @@ export function ServiceOrderForm({
           layout="bar"
           source="service_order"
           serviceName={title}
+          email={email}
         />
       </div>
       <p className="mt-4 text-sm leading-6 text-muted">{t('reassure')}</p>

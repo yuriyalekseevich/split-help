@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { legalBlocks, legalInline } from '@/lib/legal-content';
+import { legalBlocks, legalInline, withLegalContact } from '@/lib/legal-content';
 
 const SAMPLE = [
   'Our website uses cookies to work.',
@@ -27,6 +27,13 @@ describe('legal content', () => {
         ],
       },
     ]);
+  });
+
+  it('sends legal contact addresses to the billing inbox', () => {
+    const source = 'Write to **info@split-help.com** or maliyov533@gmail.com.';
+    expect(withLegalContact(source)).toBe(
+      'Write to **billing@split-help.com** or billing@split-help.com.',
+    );
   });
 
   it('keeps unmatched asterisks as text and marks bold spans', () => {
