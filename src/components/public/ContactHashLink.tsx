@@ -4,8 +4,29 @@ import type { MouseEvent, ReactNode } from 'react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { track } from '@/lib/analytics';
 
-const HEADER_OFFSET = 88;
+function stickyHeaderOffset() {
+  const header = document.querySelector('header');
+  if (!header || getComputedStyle(header).position !== 'sticky') return 0;
+  return header.getBoundingClientRect().height;
+}
 
+/** Moves to the contact section. CSS smooth scrolling drops programmatic scrolls, so it is turned off for this jump. */
+function scrollToContact() {
+  const target = document.getElementById('contact');
+  if (!target) return false;
+
+  const scrolling = document.scrollingElement ?? document.documentElement;
+  const top = Math.max(0, target.getBoundingClientRect().top + scrolling.scrollTop - stickyHeaderOffset());
+  const html = document.documentElement;
+  const previous = html.style.scrollBehavior;
+  html.style.scrollBehavior = 'auto';
+  html.getClientRects();
+  scrolling.scrollTop = top;
+  html.style.scrollBehavior = previous;
+  return true;
+}
+
+/** Scrolls to the contact section when it is already on the page. Otherwise the link navigates home. */
 export function ContactHashLink({
   className,
   children,
@@ -13,30 +34,28 @@ export function ContactHashLink({
 }: {
   className?: string;
   children: ReactNode;
-  placement: 'idea' | 'footer';
+  placement?: 'idea' | 'footer' | 'header';
 }) {
   const pathname = usePathname();
-
-  function trackClick() {
-    track('click_discuss_idea', { placement });
-  }
+  const onHome = pathname === '/';
 
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
-    trackClick();
-    const target = document.getElementById('contact');
-    if (!target) return;
+    if (placement) {
+      track('click_discuss_idea', { placement });
+    }
+    if (!onHome) return;
 
     event.preventDefault();
-    const scrolling = document.scrollingElement ?? document.documentElement;
-    const top = target.getBoundingClientRect().top + scrolling.scrollTop - HEADER_OFFSET;
-    scrolling.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     const nextUrl = `${window.location.pathname}${window.location.search}#contact`;
-    window.history.pushState(null, '', nextUrl);
+    if (window.location.hash !== '#contact') {
+      window.history.pushState(null, '', nextUrl);
+    }
+    scrollToContact();
   }
 
-  if (pathname !== '/') {
+  if (!onHome) {
     return (
-      <Link href="/#contact" className={className} onClick={trackClick}>
+      <Link href="/#contact" className={className} onClick={onClick}>
         {children}
       </Link>
     );

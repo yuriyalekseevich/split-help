@@ -18,18 +18,20 @@ export async function Footer() {
             {site.brandName}
           </p>
           <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">{t('tagline')}</p>
-          <a
-            href={`mailto:${emails.info}`}
-            className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
-          >
-            {emails.info}
-          </a>
-          <ContactHashLink
-            placement="footer"
-            className="mt-3 inline-block text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
-          >
-            {t('idea')}
-          </ContactHashLink>
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <a
+              href={`mailto:${emails.info}`}
+              className="text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
+            >
+              {emails.info}
+            </a>
+            <ContactHashLink
+              placement="footer"
+              className="text-sm text-white/80 underline decoration-mint/70 underline-offset-4 transition hover:text-mint"
+            >
+              {t('idea')}
+            </ContactHashLink>
+          </div>
         </div>
         <nav aria-label={nav('primary')} className="flex flex-col gap-3 text-sm font-medium text-white/80">
           <Link href="/#services" className="transition hover:text-mint">
@@ -38,9 +40,7 @@ export async function Footer() {
           <Link href="/info" className="transition hover:text-mint">
             {nav('info')}
           </Link>
-          <Link href="/#contact" className="transition hover:text-mint">
-            {nav('contact')}
-          </Link>
+          <ContactHashLink className="transition hover:text-mint">{nav('contact')}</ContactHashLink>
           <Link href="/privacy-policy" className="transition hover:text-mint">
             {t('privacy')}
           </Link>

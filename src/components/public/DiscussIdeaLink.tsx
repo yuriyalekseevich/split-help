@@ -1,8 +1,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { Link } from '@/i18n/navigation';
 import { track } from '@/lib/analytics';
+import { ContactHashLink } from './ContactHashLink';
 
 type Placement = 'hero' | 'header';
 
@@ -15,21 +15,21 @@ export function DiscussIdeaLink({
   className?: string;
   children: ReactNode;
 }) {
-  function onClick() {
-    track('click_discuss_idea', { placement });
-  }
-
   if (placement === 'hero') {
     return (
-      <a href="#contact" className={className} onClick={onClick}>
+      <a
+        href="#contact"
+        className={className}
+        onClick={() => track('click_discuss_idea', { placement })}
+      >
         {children}
       </a>
     );
   }
 
   return (
-    <Link href="/#contact" className={className} onClick={onClick}>
+    <ContactHashLink placement="header" className={className}>
       {children}
-    </Link>
+    </ContactHashLink>
   );
 }

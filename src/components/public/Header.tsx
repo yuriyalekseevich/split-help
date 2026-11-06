@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { site } from '@/content/site';
 import { isLocale } from '@/lib/i18n';
 import { Link } from '@/i18n/navigation';
+import { ContactHashLink } from './ContactHashLink';
 import { DiscussIdeaLink } from './DiscussIdeaLink';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
@@ -19,9 +20,7 @@ export async function Header() {
       <Link href="/info" className="transition hover:text-mint">
         {t('info')}
       </Link>
-      <Link href="/#contact" className="transition hover:text-mint">
-        {t('contact')}
-      </Link>
+      <ContactHashLink className="transition hover:text-mint">{t('contact')}</ContactHashLink>
     </>
   );
 
