@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ImageCarousel } from '@/components/public/ImageCarousel';
 import { linkify, splitParagraphs } from '@/lib/format';
-import { isLocale, pageMetadata } from '@/lib/i18n';
+import { isLocale, noIndexMetadata, pageMetadata } from '@/lib/i18n';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
 import { getUsefulInfoBySlug } from '@/lib/services/useful-info.server';
@@ -28,16 +28,19 @@ export async function generateMetadata({ params }: Props) {
   if (!isLocale(locale)) return {};
 
   const slug = parseUsefulInfoSlug(rawSlug);
-  if (slug === null) return {};
+  if (slug === null) notFound();
 
   const result = await getUsefulInfoBySlug(slug, locale);
-  if (!result.success || !result.data) return {};
+  if (!result.success) return noIndexMetadata();
+  if (!result.data) notFound();
 
   return pageMetadata({
     locale,
     title: result.data.title,
     description: metaDescription(result.data),
     path: `/info/${result.data.slug}`,
+    contentLocale: result.data.contentLocale,
+    publishedLocales: result.data.publishedLocales,
     ...(result.data.image_url?.startsWith('https:') ? { image: result.data.image_url } : {}),
   });
 }

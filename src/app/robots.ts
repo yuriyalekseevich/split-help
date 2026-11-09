@@ -6,6 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // The PostHog proxy and route handlers are not pages. Disallow does not block the proxy.
+      disallow: ['/api', '/ingest'],
     },
     sitemap: `${site.domain}/sitemap.xml`,
   };

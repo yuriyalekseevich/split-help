@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
-import { isLocale, pageMetadata } from '@/lib/i18n';
+import { isLocale, noIndexMetadata, pageMetadata } from '@/lib/i18n';
 import { splitLines } from '@/lib/format';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listServiceImages } from '@/lib/services/gallery-images.server';
@@ -32,10 +32,11 @@ export async function generateMetadata({ params }: Props) {
   if (!isLocale(locale)) return {};
 
   const slug = parseServiceSlug(rawSlug);
-  if (slug === null) return {};
+  if (slug === null) notFound();
 
   const result = await getCatalogServiceBySlug(slug, locale);
-  if (!result.success || !result.data) return {};
+  if (!result.success) return noIndexMetadata();
+  if (!result.data) notFound();
 
   return pageMetadata({
     locale,
@@ -43,6 +44,8 @@ export async function generateMetadata({ params }: Props) {
     description: metaDescription(result.data.subtitle, result.data.description),
     path: `/service/${result.data.slug}`,
     image: result.data.imageUrl ?? SERVICE_IMAGE_FALLBACK,
+    contentLocale: result.data.contentLocale,
+    publishedLocales: result.data.publishedLocales,
   });
 }
 

@@ -86,6 +86,8 @@ describe('assembleCatalogServices', () => {
         description: 'Привезём по Сплиту',
         priceDescription: 'от 15 €',
         imageUrl: null,
+        contentLocale: 'ru',
+        publishedLocales: ['ru'],
       },
       {
         id: 1,
@@ -96,6 +98,8 @@ describe('assembleCatalogServices', () => {
         description: 'Повесим полки',
         priceDescription: 'от 25 € в час',
         imageUrl: 'https://images.example/handyman.jpg',
+        contentLocale: 'ru',
+        publishedLocales: ['en', 'ru'],
       },
     ]);
   });
@@ -105,6 +109,17 @@ describe('assembleCatalogServices', () => {
     expect(result.success).toBe(true);
     if (!result.success) return;
     expect(result.data.map((item) => item.title)).toEqual(['Handyman']);
+    expect(result.data[0]).toMatchObject({ contentLocale: 'en', publishedLocales: ['en', 'ru'] });
+  });
+
+  it('drops a slug the public route would reject', () => {
+    const result = assembleCatalogServices(
+      [{ ...services[0], id: 8, slug: 'Bad Slug', sort_order: 0 }],
+      [{ ...translations[0], service_id: 8 }],
+      'en',
+      'en',
+    );
+    expect(result.success && result.data).toEqual([]);
   });
 
   it('rejects an unsafe image', () => {

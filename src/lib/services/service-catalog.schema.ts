@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { AppError, clientMessage } from '@/lib/errors/app-error';
+import { indexableLocales } from '@/lib/i18n';
 import type { ParseOutcome } from '@/lib/services/base.service';
 
 const LIMITS = {
@@ -64,6 +65,10 @@ export type CatalogService = {
   description: string;
   priceDescription: string | null;
   imageUrl: string | null;
+  /** Locale of the text actually rendered. May differ from the URL locale. */
+  contentLocale: string;
+  /** Locales that have their own translation row. */
+  publishedLocales: readonly string[];
 };
 
 export type CatalogServiceSource = {
@@ -104,7 +109,8 @@ function pickTranslation(
 
 /**
  * Published, active rows only. Text comes from the requested language, then the default language.
- * A service with neither translation is left out. Invalid text or image fails the whole list.
+ * A service with neither translation, or with a slug the public route would reject, is left out.
+ * Invalid text or image fails the whole list.
  */
 export function assembleCatalogServices(
   services: CatalogServiceSource[],
@@ -122,12 +128,19 @@ export function assembleCatalogServices(
   const data: CatalogService[] = [];
   for (const service of services) {
     if (service.status !== PUBLISHED_STATUS || !service.is_active) continue;
-    const chosen = pickTranslation(byService.get(service.id) ?? [], languageCode, fallbackLanguageCode);
-    if (!chosen) continue;
+    const slug = parseServiceSlug(service.slug);
+    if (slug === null) continue;
+    const group = byService.get(service.id) ?? [];
+    const chosen = pickTranslation(group, languageCode, fallbackLanguageCode);
+    const indexed = indexableLocales(
+      group.map((item) => item.language_code),
+      chosen?.language_code ?? null,
+    );
+    if (!chosen || !indexed) continue;
 
     const parsed = catalogServiceRowSchema.safeParse({
       id: service.id,
-      slug: service.slug,
+      slug,
       sort_order: service.sort_order,
       title: chosen.title,
       subtitle: chosen.subtitle,
@@ -156,6 +169,8 @@ export function assembleCatalogServices(
       description: parsed.data.description,
       priceDescription: parsed.data.price_description,
       imageUrl: parsed.data.image_url,
+      contentLocale: indexed.contentLocale,
+      publishedLocales: indexed.publishedLocales,
     });
   }
 

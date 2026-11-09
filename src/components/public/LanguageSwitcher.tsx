@@ -1,6 +1,6 @@
 'use client';
 
-import { locales, type Locale } from '@/lib/i18n';
+import { htmlLanguage, locales, type Locale } from '@/lib/i18n';
 import { Link, usePathname } from '@/i18n/navigation';
 import { track } from '@/lib/analytics';
 
@@ -31,7 +31,7 @@ export function LanguageSwitcher({
             <Link
               href={pathname}
               locale={code}
-              hrefLang={code}
+              hrefLang={htmlLanguage(code)}
               aria-current={code === locale ? 'page' : undefined}
               onClick={() => {
                 if (code === locale) return;

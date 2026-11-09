@@ -11,6 +11,7 @@ import { CookieBanner } from '@/components/consent/CookieBanner';
 import { CookieConsentProvider } from '@/components/consent/CookieConsentProvider';
 import { site } from '@/content/site';
 import { routing } from '@/i18n/routing';
+import { htmlLanguage } from '@/lib/i18n';
 import { CONSENT_COOKIE_NAME, parseConsent } from '@/lib/consent';
 import { Header } from '@/components/public/Header';
 import { Footer } from '@/components/public/Footer';
@@ -66,7 +67,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const initialConsent = parseConsent(cookieStore.get(CONSENT_COOKIE_NAME)?.value);
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth" className={`${sans.variable} h-full`}>
+    <html lang={htmlLanguage(locale)} data-scroll-behavior="smooth" className={`${sans.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans text-ink antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <CookieConsentProvider initialChoice={initialConsent}>

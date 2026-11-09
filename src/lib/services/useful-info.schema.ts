@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { AppError, clientMessage } from '@/lib/errors/app-error';
+import { indexableLocales } from '@/lib/i18n';
 import type { ParseOutcome } from '@/lib/services/base.service';
 import type { UsefulInfo } from '@/lib/types/database';
 
@@ -134,8 +135,13 @@ export function assembleUsefulInfo(
     if (article.status !== PUBLISHED_STATUS) continue;
     const slug = article.slug === null ? null : parseUsefulInfoSlug(article.slug);
     if (slug === null) continue;
-    const chosen = pickTranslation(byArticle.get(article.id) ?? [], languageCode, fallbackLanguageCode);
-    if (!chosen) continue;
+    const group = byArticle.get(article.id) ?? [];
+    const chosen = pickTranslation(group, languageCode, fallbackLanguageCode);
+    const indexed = indexableLocales(
+      group.map((item) => item.language_code),
+      chosen?.language_code ?? null,
+    );
+    if (!chosen || !indexed) continue;
 
     const parsed = parseUsefulInfoRow({
       id: article.id,
@@ -157,7 +163,7 @@ export function assembleUsefulInfo(
         }),
       };
     }
-    data.push(parsed.data);
+    data.push({ ...parsed.data, ...indexed });
   }
 
   return { success: true, data };

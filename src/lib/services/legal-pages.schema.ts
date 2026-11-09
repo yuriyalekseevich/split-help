@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { AppError, clientMessage } from '@/lib/errors/app-error';
+import { indexableLocales } from '@/lib/i18n';
 import type { ParseOutcome } from '@/lib/services/base.service';
 import type { LegalPage } from '@/lib/types/database';
 
@@ -85,12 +86,13 @@ export function assembleLegalPage(
   const slug = parseLegalSlug(page.slug);
   if (!slug) return { success: true, data: null };
 
-  const chosen = pickTranslation(
-    translations.filter((item) => item.legal_page_id === page.id),
-    languageCode,
-    fallbackLanguageCode,
+  const group = translations.filter((item) => item.legal_page_id === page.id);
+  const chosen = pickTranslation(group, languageCode, fallbackLanguageCode);
+  const indexed = indexableLocales(
+    group.map((item) => item.language_code),
+    chosen?.language_code ?? null,
   );
-  if (!chosen) return { success: true, data: null };
+  if (!chosen || !indexed) return { success: true, data: null };
 
   const parsed = parseLegalPage({
     id: page.id,
@@ -110,5 +112,5 @@ export function assembleLegalPage(
     };
   }
 
-  return { success: true, data: parsed.data };
+  return { success: true, data: { ...parsed.data, ...indexed } };
 }

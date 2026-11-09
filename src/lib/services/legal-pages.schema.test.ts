@@ -28,7 +28,11 @@ describe('legal pages', () => {
 
   it('falls back to the default language when the locale has no row', () => {
     const result = assembleLegalPage(page, translations, 'ua', 'en');
-    expect(result.success && result.data).toMatchObject({ title: 'Privacy Policy' });
+    expect(result.success && result.data).toMatchObject({
+      title: 'Privacy Policy',
+      contentLocale: 'en',
+      publishedLocales: ['en', 'hr'],
+    });
   });
 
   it('is absent when the slug is not a legal page', () => {

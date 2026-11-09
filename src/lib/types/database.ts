@@ -33,6 +33,10 @@ export type UsefulInfo = {
   image_url: string | null;
   description: string;
   created_at: string;
+  /** Locale of the text actually rendered. May differ from the URL locale. */
+  contentLocale?: string;
+  /** Locales that have their own translation row. */
+  publishedLocales?: readonly string[];
 };
 
 /** Flat legal page. Title and content live on `legal_pages_translations`. */
@@ -41,4 +45,8 @@ export type LegalPage = {
   slug: string;
   title: string;
   content: string;
+  /** Locale of the text actually rendered. May differ from the URL locale. */
+  contentLocale?: string;
+  /** Locales that have their own translation row. */
+  publishedLocales?: readonly string[];
 };

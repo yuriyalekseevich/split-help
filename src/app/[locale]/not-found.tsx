@@ -1,5 +1,10 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+
+export const metadata: Metadata = {
+  robots: { index: false },
+};
 
 export default async function NotFound() {
   const t = await getTranslations('notFound');

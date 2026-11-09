@@ -169,6 +169,8 @@ describe('assembleUsefulInfo', () => {
       [3, 'Как забронировать талон в МУП'],
     ]);
     expect(result.data[1]?.subtitle).toBeNull();
+    expect(result.data[0]).toMatchObject({ contentLocale: 'ru', publishedLocales: ['en', 'ru'] });
+    expect(result.data[1]).toMatchObject({ contentLocale: 'ru', publishedLocales: ['ru'] });
   });
 
   it('rejects an unsafe image on the parent row', () => {
