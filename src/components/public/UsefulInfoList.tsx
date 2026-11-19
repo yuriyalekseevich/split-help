@@ -2,11 +2,11 @@
 
 import { Link } from '@/i18n/navigation';
 import { track } from '@/lib/analytics';
+import { infoExcerpt } from '@/lib/info-content';
 import type { UsefulInfo } from '@/lib/types/database';
 
 function cardLead(item: UsefulInfo): string {
-  if (item.subtitle) return item.subtitle;
-  const text = item.description.replace(/\s+/g, ' ').trim();
+  const text = item.subtitle?.trim() || infoExcerpt(item.description);
   return text.length > 160 ? `${text.slice(0, 157)}…` : text;
 }
 

@@ -81,7 +81,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               <AnalyticsListener />
             </Suspense>
             <Header />
-            <div className="flex-1">{children}</div>
+            <div className="min-w-0 flex-1">{children}</div>
             <Footer />
             <FloatingWhatsApp />
             <CookieBanner />

@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ImageCarousel } from '@/components/public/ImageCarousel';
-import { linkify, splitParagraphs } from '@/lib/format';
+import { InfoProse } from '@/components/public/InfoProse';
 import { isLocale, noIndexMetadata, pageMetadata } from '@/lib/i18n';
+import { infoExcerpt } from '@/lib/info-content';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
 import { getUsefulInfoBySlug } from '@/lib/services/useful-info.server';
@@ -19,7 +20,7 @@ type Props = {
 };
 
 function metaDescription(item: UsefulInfo) {
-  const source = item.subtitle ?? item.description;
+  const source = item.subtitle ?? infoExcerpt(item.description);
   return source.length > 180 ? `${source.slice(0, 177)}…` : source;
 }
 
@@ -75,11 +76,10 @@ export default async function UsefulInfoPage({ params }: Props) {
 
   const item = result.data;
   const gallery = await listUsefulInfoImages(item.id);
-  const paragraphs = splitParagraphs(item.description);
   const slides = gallery.success ? gallerySlides(gallery.data, item.title) : [];
 
   return (
-    <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
+    <main id="content" className="mx-auto min-w-0 max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
       <nav aria-label={a11y('breadcrumb')}>
         <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">
           <li>
@@ -116,29 +116,7 @@ export default async function UsefulInfoPage({ params }: Props) {
       <h1 className="mt-6 font-serif text-4xl leading-tight break-words text-ink sm:text-5xl">{item.title}</h1>
       {item.subtitle ? <p className="mt-4 text-lg leading-8 break-words text-muted">{item.subtitle}</p> : null}
 
-      {paragraphs.length > 0 ? (
-        <div className="mt-8 grid gap-4">
-          {paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-base leading-7 break-words whitespace-pre-line text-ink">
-              {linkify(paragraph).map((part, partIndex) =>
-                part.type === 'link' ? (
-                  <a
-                    key={partIndex}
-                    href={part.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold text-sea underline decoration-mint decoration-2 underline-offset-4"
-                  >
-                    {part.value}
-                  </a>
-                ) : (
-                  <span key={partIndex}>{part.value}</span>
-                ),
-              )}
-            </p>
-          ))}
-        </div>
-      ) : null}
+      <InfoProse content={item.description} />
 
       <p className="mt-10">
         <Link href="/info" className="text-sm font-semibold text-sea hover:underline">

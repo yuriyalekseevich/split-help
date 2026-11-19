@@ -51,6 +51,14 @@ describe('proxy', () => {
     expect(url.search).toBe('?utm_source=google');
   });
 
+  it('sends a retired info slug to the current slug in one permanent redirect', async () => {
+    const result = await respond('/en/info/accommodation-in-split/?utm_source=google');
+    expect(result.status).toBe(308);
+    const url = parsed(result.location);
+    expect(url.pathname).toBe('/en/info/long-term-rentals-split');
+    expect(url.search).toBe('?utm_source=google');
+  });
+
   it('serves a canonical locale path without redirecting', async () => {
     const result = await respond('/en/info?utm_source=google');
     expect(result.location).toBeNull();

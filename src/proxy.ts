@@ -7,7 +7,8 @@ import { normalizeIndexablePath } from '@/lib/seo-path';
  * Locale routing.
  * Next.js 16 renamed `middleware.ts` to `proxy.ts`.
  * `/` redirects once to `/en` (`localePrefix: 'always'`, detection off).
- * Legacy `/uk` and locale-prefixed trailing slashes redirect once to the canonical path.
+ * Legacy `/uk`, retired info slugs, and locale-prefixed trailing slashes
+ * redirect once to the canonical path.
  * `/ingest` is never touched: PostHog needs those trailing slashes, and
  * `skipTrailingSlashRedirect` in next.config.ts keeps Next from stripping them.
  */

@@ -20,7 +20,8 @@ export type TextPart =
 
 const URL_PATTERN = /https?:\/\/[^\s<>"']+/gi;
 
-function httpUrl(value: string): string | null {
+/** http(s) only, with no userinfo. Shared by bare links and markdown links. */
+export function httpUrl(value: string): string | null {
   try {
     const url = new URL(value);
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;

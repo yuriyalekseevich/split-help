@@ -148,12 +148,20 @@ h3 {
   margin-top: 2rem;
   display: grid;
   gap: 1rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.prose > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .prose h2 {
   margin-top: 0.75rem;
   font-size: 1.25rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .prose p,
@@ -161,6 +169,10 @@ h3 {
   font-size: 1rem;
   line-height: 1.75;
   overflow-wrap: break-word;
+}
+
+.prose a {
+  overflow-wrap: anywhere;
 }
 
 .prose ul {
