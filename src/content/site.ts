@@ -15,7 +15,7 @@ export const emails = {
 
 export const site = {
   brandName: 'Split Help',
-  domain: 'https://split-help.com',
+  domain: 'https://www.split-help.com',
   emails,
   contacts: {
     whatsapp: '+380955948402',
