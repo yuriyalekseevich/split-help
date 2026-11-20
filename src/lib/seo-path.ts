@@ -16,12 +16,27 @@ function withCurrentInfoSlug(path: string): string {
   return match[1] ? `/${match[1]}/info/${next}` : `/info/${next}`;
 }
 
+/** Retired service slugs. The public URL is the current slug. */
+const retiredServiceSlugs: Record<string, string> = {
+  'transfer-airport': 'airport-transfer',
+};
+
+const serviceSlugPath = new RegExp(`^/(?:(${locales.join('|')})/)?service/([^/]+)/?$`);
+
+function withCurrentServiceSlug(path: string): string {
+  const match = serviceSlugPath.exec(path);
+  if (!match) return path;
+  const next = retiredServiceSlugs[match[2]];
+  if (!next) return path;
+  return match[1] ? `/${match[1]}/service/${next}` : `/service/${next}`;
+}
+
 /**
  * Single public URL for a request path.
  * Returns null when the path should be left to locale routing.
  * `/uk` becomes `/ua`. A trailing slash is removed only after a real locale prefix,
  * so `/info/` can still redirect straight to `/en/info` in one hop.
- * Retired info slugs fold into that same path.
+ * Retired info and service slugs fold into that same path.
  */
 export function normalizeIndexablePath(pathname: string): string | null {
   let path = pathname.replace(/\/{2,}/g, '/');
@@ -39,6 +54,7 @@ export function normalizeIndexablePath(pathname: string): string | null {
   }
 
   path = withCurrentInfoSlug(path);
+  path = withCurrentServiceSlug(path);
 
   return path === pathname ? null : path;
 }

@@ -37,6 +37,29 @@ describe('normalizeIndexablePath', () => {
     expect(normalizeIndexablePath('/ua/info/shops-open-on-sunday-split')).toBeNull();
   });
 
+  it('sends the retired airport slug to the current service slug for every locale', () => {
+    for (const locale of ['en', 'ru', 'hr', 'ua'] as const) {
+      expect(normalizeIndexablePath(`/${locale}/service/transfer-airport`)).toBe(
+        `/${locale}/service/airport-transfer`,
+      );
+    }
+  });
+
+  it('folds a trailing slash and legacy uk into the current service slug', () => {
+    expect(normalizeIndexablePath('/en/service/transfer-airport/')).toBe(
+      '/en/service/airport-transfer',
+    );
+    expect(normalizeIndexablePath('/uk/service/transfer-airport/')).toBe(
+      '/ua/service/airport-transfer',
+    );
+    expect(normalizeIndexablePath('/service/transfer-airport')).toBe('/service/airport-transfer');
+  });
+
+  it('leaves the current airport slug alone', () => {
+    expect(normalizeIndexablePath('/en/service/airport-transfer')).toBeNull();
+    expect(normalizeIndexablePath('/ua/service/airport-transfer')).toBeNull();
+  });
+
   it('collapses a locale-prefixed slash and legacy uk into one path', () => {
     expect(normalizeIndexablePath('/en/info/')).toBe('/en/info');
     expect(normalizeIndexablePath('/en/')).toBe('/en');

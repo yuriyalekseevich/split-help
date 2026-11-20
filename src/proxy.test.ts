@@ -59,6 +59,20 @@ describe('proxy', () => {
     expect(url.search).toBe('?utm_source=google');
   });
 
+  it('sends the retired airport slug to the current service slug in one permanent redirect', async () => {
+    const result = await respond('/en/service/transfer-airport/?utm_source=google');
+    expect(result.status).toBe(308);
+    const url = parsed(result.location);
+    expect(url.pathname).toBe('/en/service/airport-transfer');
+    expect(url.search).toBe('?utm_source=google');
+  });
+
+  it('sends an unprefixed retired airport slug straight to the default locale', async () => {
+    const result = await respond('/service/transfer-airport');
+    expect(result.status).toBe(308);
+    expect(parsed(result.location).pathname).toBe('/en/service/airport-transfer');
+  });
+
   it('serves a canonical locale path without redirecting', async () => {
     const result = await respond('/en/info?utm_source=google');
     expect(result.location).toBeNull();
