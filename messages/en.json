@@ -48,7 +48,11 @@
     "groups": "Facebook groups",
     "featured": "Start here",
     "back": "All questions",
-    "newTab": "Opens in a new tab"
+    "newTab": "Opens in a new tab",
+    "relatedServices": "Need help with this?",
+    "relatedGuides": "Related guides",
+    "homeSectionTitle": "Useful information about life in Split",
+    "allArticles": "All articles"
   },
   "contact": {
     "eyebrow": "Contact",
@@ -72,7 +76,8 @@
     "optional": "optional",
     "reassure": "No worries if you left the details out. We'll get back to you and sort them out.",
     "back": "Back to all services",
-    "loadError": "This service could not be loaded. Refresh the page and try again."
+    "loadError": "This service could not be loaded. Refresh the page and try again.",
+    "relatedGuides": "Useful guides on this topic"
   },
   "toast": {
     "copied": "Message copied. Paste it into the chat.",

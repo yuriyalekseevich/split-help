@@ -4,7 +4,7 @@ import { cache } from 'react';
 import { logAppError, toAppError, toPublicError } from '@/lib/errors/app-error';
 import { createUsefulInfoService, type UsefulInfoService } from '@/lib/services/useful-info.service';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import type { UsefulInfo } from '@/lib/types/database';
+import type { UsefulInfo, UsefulInfoDetail } from '@/lib/types/database';
 import type { Result } from '@/lib/types/result';
 
 async function withUsefulInfoService<T>(
@@ -33,10 +33,20 @@ export const getUsefulInfoById = cache((id: number, languageCode: string): Promi
 });
 
 export const getUsefulInfoBySlug = cache(
-  (slug: string, languageCode: string): Promise<Result<UsefulInfo | null>> => {
+  (slug: string, languageCode: string): Promise<Result<UsefulInfoDetail | null>> => {
     return withUsefulInfoService('getBySlug', (service) => service.getBySlug(slug, languageCode), {
       slug,
       languageCode,
     });
   },
 );
+
+export function listUsefulInfoByIds(
+  ids: readonly number[],
+  languageCode: string,
+): Promise<Result<UsefulInfo[]>> {
+  if (ids.length === 0) return Promise.resolve({ success: true, data: [] });
+  return withUsefulInfoService('getByIds', (service) => service.getByIds([...ids], languageCode), {
+    languageCode,
+  });
+}

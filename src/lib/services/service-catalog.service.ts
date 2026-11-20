@@ -1,6 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { logAppError, toAppError, toPublicError } from '@/lib/errors/app-error';
-import { assembleCatalogServices, type CatalogService } from '@/lib/services/service-catalog.schema';
+import { orderByIds, parseRelatedIds } from '@/lib/services/related-ids';
+import {
+  assembleCatalogServices,
+  type CatalogService,
+  type CatalogServiceDetail,
+} from '@/lib/services/service-catalog.schema';
 import type { Database } from '@/lib/types/database';
 import type { Result } from '@/lib/types/result';
 
@@ -14,6 +19,7 @@ export function createServiceCatalog(client: SupabaseClient<Database>) {
   return {
     getAll: (languageCode: string) => readCatalog(client, 'getAll', languageCode),
     getBySlug: (slug: string, languageCode: string) => readCatalogBySlug(client, slug, languageCode),
+    getByIds: (ids: number[], languageCode: string) => readCatalogByIds(client, ids, languageCode),
   };
 }
 
@@ -78,10 +84,71 @@ async function readCatalogBySlug(
   client: SupabaseClient<Database>,
   slug: string,
   languageCode: string,
-): Promise<Result<CatalogService | null>> {
+): Promise<Result<CatalogServiceDetail | null>> {
   const result = await readCatalog(client, 'getBySlug', languageCode, slug);
   if (!result.success) return result;
-  return { success: true, data: result.data[0] ?? null };
+  const service = result.data[0] ?? null;
+  if (!service) return { success: true, data: null };
+
+  try {
+    const related = await client.from('services').select('related_info_ids').eq('id', service.id).maybeSingle();
+    if (related.error) return failure('getBySlug', related.error, { slug });
+    return {
+      success: true,
+      data: { ...service, relatedInfoIds: parseRelatedIds(related.data?.related_info_ids) },
+    };
+  } catch (error) {
+    return failure('getBySlug', error, { slug });
+  }
+}
+
+async function readCatalogByIds(
+  client: SupabaseClient<Database>,
+  ids: number[],
+  languageCode: string,
+): Promise<Result<CatalogService[]>> {
+  if (ids.length === 0) return { success: true, data: [] };
+
+  const servicesQuery = client
+    .from('services')
+    .select('id, slug, image_url, is_active, sort_order, status')
+    .eq('status', PUBLISHED_STATUS)
+    .eq('is_active', true)
+    .in('id', ids);
+
+  try {
+    const [servicesResult, languageResult] = await Promise.all([
+      servicesQuery,
+      client.from('languages').select('code').eq('is_default', true).limit(1).maybeSingle(),
+    ]);
+
+    if (servicesResult.error) return failure('getByIds', servicesResult.error);
+    if (languageResult.error) return failure('getByIds', languageResult.error);
+
+    const services = servicesResult.data ?? [];
+    if (services.length === 0) return { success: true, data: [] };
+
+    const translationsResult = await client
+      .from('service_translations')
+      .select('service_id, language_code, title, subtitle, description, price_description')
+      .in(
+        'service_id',
+        services.map((service) => service.id),
+      );
+
+    if (translationsResult.error) return failure('getByIds', translationsResult.error);
+
+    const assembled = assembleCatalogServices(
+      services,
+      translationsResult.data ?? [],
+      languageCode,
+      languageResult.data?.code ?? null,
+    );
+    if (!assembled.success) return failure('getByIds', assembled.error);
+    return { success: true, data: orderByIds(assembled.data, ids) };
+  } catch (error) {
+    return failure('getByIds', error);
+  }
 }
 
 function failure(operation: string, error: unknown, extra?: Record<string, unknown>): Result<never> {

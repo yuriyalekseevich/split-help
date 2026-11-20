@@ -2,7 +2,7 @@ import 'server-only';
 import { unstable_rethrow } from 'next/navigation';
 import { cache } from 'react';
 import { logAppError, toAppError, toPublicError } from '@/lib/errors/app-error';
-import type { CatalogService } from '@/lib/services/service-catalog.schema';
+import type { CatalogService, CatalogServiceDetail } from '@/lib/services/service-catalog.schema';
 import { createServiceCatalog, type ServiceCatalog } from '@/lib/services/service-catalog.service';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import type { Result } from '@/lib/types/result';
@@ -29,7 +29,15 @@ export const listCatalogServices = cache((languageCode: string): Promise<Result<
 });
 
 export const getCatalogServiceBySlug = cache(
-  (slug: string, languageCode: string): Promise<Result<CatalogService | null>> => {
+  (slug: string, languageCode: string): Promise<Result<CatalogServiceDetail | null>> => {
     return withCatalog('getBySlug', (catalog) => catalog.getBySlug(slug, languageCode), { slug, languageCode });
   },
 );
+
+export function listCatalogServicesByIds(
+  ids: readonly number[],
+  languageCode: string,
+): Promise<Result<CatalogService[]>> {
+  if (ids.length === 0) return Promise.resolve({ success: true, data: [] });
+  return withCatalog('getByIds', (catalog) => catalog.getByIds([...ids], languageCode), { languageCode });
+}

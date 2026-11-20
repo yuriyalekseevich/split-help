@@ -225,6 +225,7 @@ export type Database = {
           image_url: string | null
           is_active: boolean
           published_at: string | null
+          related_info_ids: number[] | null
           slug: string
           sort_order: number
           status: string
@@ -236,6 +237,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           published_at?: string | null
+          related_info_ids?: number[] | null
           slug: string
           sort_order?: number
           status?: string
@@ -247,6 +249,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean
           published_at?: string | null
+          related_info_ids?: number[] | null
           slug?: string
           sort_order?: number
           status?: string
@@ -326,6 +329,8 @@ export type Database = {
           id: number
           image_url: string | null
           published_at: string | null
+          related_info_ids: number[] | null
+          related_service_ids: number[] | null
           slug: string | null
           status: string
           updated_at: string
@@ -335,6 +340,8 @@ export type Database = {
           id?: never
           image_url?: string | null
           published_at?: string | null
+          related_info_ids?: number[] | null
+          related_service_ids?: number[] | null
           slug?: string | null
           status?: string
           updated_at?: string
@@ -344,6 +351,8 @@ export type Database = {
           id?: never
           image_url?: string | null
           published_at?: string | null
+          related_info_ids?: number[] | null
+          related_service_ids?: number[] | null
           slug?: string | null
           status?: string
           updated_at?: string

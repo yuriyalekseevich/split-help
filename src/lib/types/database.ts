@@ -39,6 +39,12 @@ export type UsefulInfo = {
   publishedLocales?: readonly string[];
 };
 
+/** Article page, including the curated links stored on the row. */
+export type UsefulInfoDetail = UsefulInfo & {
+  relatedServiceIds: number[];
+  relatedInfoIds: number[];
+};
+
 /** Flat legal page. Title and content live on `legal_pages_translations`. */
 export type LegalPage = {
   id: number;

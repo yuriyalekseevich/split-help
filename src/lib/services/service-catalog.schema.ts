@@ -71,6 +71,11 @@ export type CatalogService = {
   publishedLocales: readonly string[];
 };
 
+/** Service page, including curated links to useful-info articles. */
+export type CatalogServiceDetail = CatalogService & {
+  relatedInfoIds: number[];
+};
+
 export type CatalogServiceSource = {
   id: number;
   slug: string;

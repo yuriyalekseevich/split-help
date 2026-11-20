@@ -48,7 +48,11 @@
     "groups": "Grupe na Facebooku",
     "featured": "Počnite ovdje",
     "back": "Sva pitanja",
-    "newTab": "Otvara se u novoj kartici"
+    "newTab": "Otvara se u novoj kartici",
+    "relatedServices": "Trebate pomoć oko ovoga?",
+    "relatedGuides": "Povezani vodiči",
+    "homeSectionTitle": "Korisne informacije o životu u Splitu",
+    "allArticles": "Svi članci"
   },
   "contact": {
     "eyebrow": "Kontakt",
@@ -72,7 +76,8 @@
     "optional": "nije obavezno",
     "reassure": "Nije problem ako niste naveli detalje. Javit ćemo vam se i sve ćemo dogovoriti.",
     "back": "Natrag na sve usluge",
-    "loadError": "Uslugu nismo mogli učitati. Osvježite stranicu i pokušajte ponovno."
+    "loadError": "Uslugu nismo mogli učitati. Osvježite stranicu i pokušajte ponovno.",
+    "relatedGuides": "Korisne upute o ovoj temi"
   },
   "toast": {
     "copied": "Poruka je kopirana. Zalijepite je u razgovor.",

@@ -9,7 +9,9 @@ import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listServiceImages } from '@/lib/services/gallery-images.server';
 import { getCatalogServiceBySlug } from '@/lib/services/service-catalog.server';
 import { parseServiceSlug } from '@/lib/services/service-catalog.schema';
+import { listUsefulInfoByIds } from '@/lib/services/useful-info.server';
 import { ImageCarousel } from '@/components/public/ImageCarousel';
+import { RelatedGuides } from '@/components/public/RelatedGuides';
 import { ServiceImage } from '@/components/public/ServiceImage';
 import { ServiceOrderForm } from '@/components/public/ServiceOrderForm';
 import { supportRecipient } from '@/lib/contact-email';
@@ -79,8 +81,12 @@ export default async function ServicePage({ params }: Props) {
 
   const service = result.data;
   const included = splitLines(service.description);
-  const gallery = await listServiceImages(service.id);
+  const [gallery, relatedArticles] = await Promise.all([
+    listServiceImages(service.id),
+    listUsefulInfoByIds(service.relatedInfoIds, locale),
+  ]);
   const slides = gallery.success ? gallerySlides(gallery.data, service.title) : [];
+  const guides = relatedArticles.success ? relatedArticles.data : [];
 
   return (
     <main id="content" className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
@@ -135,6 +141,8 @@ export default async function ServicePage({ params }: Props) {
       ) : null}
 
       <ServiceOrderForm locale={locale} title={service.title} email={supportRecipient()} />
+
+      <RelatedGuides title={t('relatedGuides')} items={guides} />
 
       <p className="mt-8">
         <Link href="/" className="text-sm font-semibold text-sea hover:underline">

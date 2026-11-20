@@ -2,8 +2,15 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { logAppError, toAppError, toPublicError } from '@/lib/errors/app-error';
 import { BaseService } from '@/lib/services/base.service';
 import type { MutationGuard } from '@/lib/services/mutation-guard';
+import { orderByIds, parseRelatedIds } from '@/lib/services/related-ids';
 import { assembleUsefulInfo, parseUsefulInfoRow } from '@/lib/services/useful-info.schema';
-import type { Database, UsefulInfo, UsefulInfoInsert, UsefulInfoUpdate } from '@/lib/types/database';
+import type {
+  Database,
+  UsefulInfo,
+  UsefulInfoDetail,
+  UsefulInfoInsert,
+  UsefulInfoUpdate,
+} from '@/lib/types/database';
 import type { Result } from '@/lib/types/result';
 
 const PUBLISHED_STATUS = 'published';
@@ -23,6 +30,7 @@ export function createUsefulInfoService(
     getAll: (languageCode: string) => readUsefulInfo(client, 'getAll', languageCode),
     getById: (id: number, languageCode: string) => readUsefulInfoById(client, id, languageCode),
     getBySlug: (slug: string, languageCode: string) => readUsefulInfoBySlug(client, slug, languageCode),
+    getByIds: (ids: number[], languageCode: string) => readUsefulInfoByIds(client, ids, languageCode),
     create: (input: UsefulInfoInsert) => base.create(input),
     update: (id: number, patch: UsefulInfoUpdate) => base.update(id, patch),
     remove: (id: number) => base.remove(id),
@@ -90,11 +98,11 @@ async function readUsefulInfoBySlug(
   client: SupabaseClient<Database>,
   slug: string,
   languageCode: string,
-): Promise<Result<UsefulInfo | null>> {
+): Promise<Result<UsefulInfoDetail | null>> {
   try {
     const articlesResult = await client
       .from('useful_info')
-      .select('id, slug, image_url, created_at, status')
+      .select('id, slug, image_url, created_at, status, related_service_ids, related_info_ids')
       .eq('status', PUBLISHED_STATUS)
       .eq('slug', slug)
       .order('created_at', { ascending: false });
@@ -103,31 +111,79 @@ async function readUsefulInfoBySlug(
     const articles = articlesResult.data ?? [];
     if (articles.length === 0) return { success: true, data: null };
 
-    const [translationsResult, languageResult] = await Promise.all([
-      client
-        .from('useful_info_translations')
-        .select('useful_info_id, language_code, title, subtitle, description')
-        .in(
-          'useful_info_id',
-          articles.map((article) => article.id),
-        ),
-      client.from('languages').select('code').eq('is_default', true).limit(1).maybeSingle(),
-    ]);
+    const assembled = await assemblePublished(client, 'getBySlug', languageCode, articles, { slug });
+    if (!assembled.success) return assembled;
+    const item = assembled.data[0] ?? null;
+    if (!item) return { success: true, data: null };
 
-    if (translationsResult.error) return failure('getBySlug', translationsResult.error, { slug });
-    if (languageResult.error) return failure('getBySlug', languageResult.error, { slug });
-
-    const assembled = assembleUsefulInfo(
-      articles,
-      translationsResult.data ?? [],
-      languageCode,
-      languageResult.data?.code ?? null,
-    );
-    if (!assembled.success) return failure('getBySlug', assembled.error, { slug });
-    return { success: true, data: assembled.data[0] ?? null };
+    const source = articles.find((article) => article.id === item.id) ?? articles[0];
+    return {
+      success: true,
+      data: {
+        ...item,
+        relatedServiceIds: parseRelatedIds(source?.related_service_ids),
+        relatedInfoIds: parseRelatedIds(source?.related_info_ids, item.id),
+      },
+    };
   } catch (error) {
     return failure('getBySlug', error, { slug });
   }
+}
+
+async function readUsefulInfoByIds(
+  client: SupabaseClient<Database>,
+  ids: number[],
+  languageCode: string,
+): Promise<Result<UsefulInfo[]>> {
+  if (ids.length === 0) return { success: true, data: [] };
+
+  try {
+    const articlesResult = await client
+      .from('useful_info')
+      .select('id, slug, image_url, created_at, status')
+      .eq('status', PUBLISHED_STATUS)
+      .in('id', ids);
+
+    if (articlesResult.error) return failure('getByIds', articlesResult.error);
+    const assembled = await assemblePublished(client, 'getByIds', languageCode, articlesResult.data ?? []);
+    if (!assembled.success) return assembled;
+    return { success: true, data: orderByIds(assembled.data, ids) };
+  } catch (error) {
+    return failure('getByIds', error);
+  }
+}
+
+async function assemblePublished(
+  client: SupabaseClient<Database>,
+  operation: string,
+  languageCode: string,
+  articles: { id: number; slug: string | null; image_url: string | null; created_at: string; status: string }[],
+  extra?: Record<string, unknown>,
+): Promise<Result<UsefulInfo[]>> {
+  if (articles.length === 0) return { success: true, data: [] };
+
+  const [translationsResult, languageResult] = await Promise.all([
+    client
+      .from('useful_info_translations')
+      .select('useful_info_id, language_code, title, subtitle, description')
+      .in(
+        'useful_info_id',
+        articles.map((article) => article.id),
+      ),
+    client.from('languages').select('code').eq('is_default', true).limit(1).maybeSingle(),
+  ]);
+
+  if (translationsResult.error) return failure(operation, translationsResult.error, extra);
+  if (languageResult.error) return failure(operation, languageResult.error, extra);
+
+  const assembled = assembleUsefulInfo(
+    articles,
+    translationsResult.data ?? [],
+    languageCode,
+    languageResult.data?.code ?? null,
+  );
+  if (!assembled.success) return failure(operation, assembled.error, extra);
+  return { success: true, data: assembled.data };
 }
 
 function failure(operation: string, error: unknown, extra?: Record<string, unknown>): Result<never> {

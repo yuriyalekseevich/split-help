@@ -5,6 +5,7 @@ import { site } from '@/content/site';
 import { routing } from '@/i18n/routing';
 import { isLocale, pageMetadata } from '@/lib/i18n';
 import { listCatalogServices } from '@/lib/services/service-catalog.server';
+import { listUsefulInfo } from '@/lib/services/useful-info.server';
 import { ContactSection } from '@/components/public/ContactSection';
 import { SplitGallery } from '@/components/public/SplitGallery';
 import { IdeaCta } from '@/components/public/IdeaCta';
@@ -38,14 +39,14 @@ export default async function HomePage({ params }: Props) {
   }
 
   setRequestLocale(locale);
-  const services = await listCatalogServices(locale);
+  const [services, articles] = await Promise.all([listCatalogServices(locale), listUsefulInfo(locale)]);
 
   return (
     <main id="content">
       <SplitGallery />
       <ServicesGrid services={services.success ? services.data : []} failed={!services.success} />
       <IdeaCta />
-      <InfoTeaser />
+      <InfoTeaser articles={articles.success ? articles.data : []} />
       <ContactSection />
     </main>
   );

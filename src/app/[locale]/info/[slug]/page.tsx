@@ -5,11 +5,14 @@ import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ImageCarousel } from '@/components/public/ImageCarousel';
 import { InfoProse } from '@/components/public/InfoProse';
+import { RelatedGuides } from '@/components/public/RelatedGuides';
+import { RelatedServices } from '@/components/public/RelatedServices';
 import { isLocale, noIndexMetadata, pageMetadata } from '@/lib/i18n';
 import { infoExcerpt } from '@/lib/info-content';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
-import { getUsefulInfoBySlug } from '@/lib/services/useful-info.server';
+import { listCatalogServicesByIds } from '@/lib/services/service-catalog.server';
+import { getUsefulInfoBySlug, listUsefulInfoByIds } from '@/lib/services/useful-info.server';
 import { parseUsefulInfoSlug } from '@/lib/services/useful-info.schema';
 import type { UsefulInfo } from '@/lib/types/database';
 
@@ -75,8 +78,14 @@ export default async function UsefulInfoPage({ params }: Props) {
   if (!result.data) notFound();
 
   const item = result.data;
-  const gallery = await listUsefulInfoImages(item.id);
+  const [gallery, relatedServices, relatedArticles] = await Promise.all([
+    listUsefulInfoImages(item.id),
+    listCatalogServicesByIds(item.relatedServiceIds, locale),
+    listUsefulInfoByIds(item.relatedInfoIds, locale),
+  ]);
   const slides = gallery.success ? gallerySlides(gallery.data, item.title) : [];
+  const services = relatedServices.success ? relatedServices.data : [];
+  const guides = relatedArticles.success ? relatedArticles.data : [];
 
   return (
     <main id="content" className="mx-auto min-w-0 max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
@@ -117,6 +126,9 @@ export default async function UsefulInfoPage({ params }: Props) {
       {item.subtitle ? <p className="mt-4 text-lg leading-8 break-words text-muted">{item.subtitle}</p> : null}
 
       <InfoProse content={item.description} />
+
+      <RelatedServices title={t('relatedServices')} services={services} />
+      <RelatedGuides title={t('relatedGuides')} items={guides} />
 
       <p className="mt-10">
         <Link href="/info" className="text-sm font-semibold text-sea hover:underline">
