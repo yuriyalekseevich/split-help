@@ -8,7 +8,8 @@ import { InfoProse } from '@/components/public/InfoProse';
 import { RelatedGuides } from '@/components/public/RelatedGuides';
 import { RelatedServices } from '@/components/public/RelatedServices';
 import { isLocale, noIndexMetadata, pageMetadata } from '@/lib/i18n';
-import { infoExcerpt } from '@/lib/info-content';
+import { infoExcerpt, infoFaq } from '@/lib/info-content';
+import { infoArticleJsonLd, infoFaqJsonLd, jsonLdScript } from '@/lib/info-jsonld';
 import { gallerySlides } from '@/lib/services/gallery-images.schema';
 import { listUsefulInfoImages } from '@/lib/services/gallery-images.server';
 import { listCatalogServicesByIds } from '@/lib/services/service-catalog.server';
@@ -86,9 +87,23 @@ export default async function UsefulInfoPage({ params }: Props) {
   const slides = gallery.success ? gallerySlides(gallery.data, item.title) : [];
   const services = relatedServices.success ? relatedServices.data : [];
   const guides = relatedArticles.success ? relatedArticles.data : [];
+  const articleLd = infoArticleJsonLd({
+    title: item.title,
+    description: metaDescription(item),
+    image: slides[0]?.imageUrl || item.image_url,
+    createdAt: item.created_at,
+    locale,
+    contentLocale: item.contentLocale,
+    slug: item.slug,
+  });
+  const faqLd = infoFaqJsonLd(infoFaq(item.description));
 
   return (
     <main id="content" className="mx-auto min-w-0 max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(articleLd) }} />
+      {faqLd ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(faqLd) }} />
+      ) : null}
       <nav aria-label={a11y('breadcrumb')}>
         <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">
           <li>

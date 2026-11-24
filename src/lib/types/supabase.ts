@@ -325,6 +325,7 @@ export type Database = {
       }
       useful_info: {
         Row: {
+          category: 'documents' | 'housing' | 'finance' | 'city'
           created_at: string
           id: number
           image_url: string | null
@@ -336,6 +337,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category: 'documents' | 'housing' | 'finance' | 'city'
           created_at?: string
           id?: never
           image_url?: string | null
@@ -347,6 +349,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category?: 'documents' | 'housing' | 'finance' | 'city'
           created_at?: string
           id?: never
           image_url?: string | null

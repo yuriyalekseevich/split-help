@@ -36,7 +36,16 @@
     "teaser": "Short answers we keep adding: where to look for a home, how to book a MUP appointment, and whatever else people ask.",
     "cta": "See the questions",
     "pageTitle": "Useful information",
+    "pageSubtitle": "Guides for documents, housing, money, and the city.",
     "growing": "This list keeps growing. We add an answer whenever the same question comes up.",
+    "filterLabel": "Categories",
+    "categories": {
+      "all": "All",
+      "documents": "Documents & Visas",
+      "housing": "Housing",
+      "finance": "Banks & Costs",
+      "city": "City & Transport"
+    },
     "searchLabel": "Search the questions",
     "searchPlaceholder": "A site, a word, MUP…",
     "empty": "Nothing matches that. Try a site name or another word.",

@@ -115,3 +115,88 @@ export function infoExcerpt(content: string): string {
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+export type InfoFaq = { question: string; answer: string };
+
+const FAQ_HEADING = /^###[ \t]+❓/;
+const NEXT_HEADING = /^#{1,3}[ \t]+\S/;
+const NUMBERED_QUESTION = /^(\d+)\.\s+(\S.*)$/;
+
+/** Lines after the first `### ❓` heading, stopping at the next heading. */
+function faqSection(content: string): string | null {
+  const lines = content.split('\n');
+  const start = lines.findIndex((line) => FAQ_HEADING.test(line.trim()));
+  if (start === -1) return null;
+
+  const rest: string[] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (NEXT_HEADING.test(line.trim())) break;
+    rest.push(line);
+  }
+  return rest.join('\n');
+}
+
+/** Reader-visible text. A bare address stays, because the label is the URL. */
+function faqText(inlines: InfoInline[]): string {
+  return inlines
+    .map((part) => {
+      if (part.type === 'text' || part.type === 'strong') return part.value;
+      const label = faqText(part.children).trim();
+      return label || part.href;
+    })
+    .join('');
+}
+
+/** A paragraph that is only a bold `1. Question` line. The name drops the number. */
+function questionName(inlines: InfoInline[]): string | null {
+  const strongs: string[] = [];
+  for (const part of inlines) {
+    if (part.type === 'strong') {
+      strongs.push(part.value);
+      continue;
+    }
+    if (part.type === 'text' && part.value.trim() === '') continue;
+    return null;
+  }
+
+  const match = strongs.join('').trim().match(NUMBERED_QUESTION);
+  return match?.[2]?.trim() || null;
+}
+
+/**
+ * Q&A pairs from a `### ❓` section.
+ * A bold `**1. Question**` paragraph starts a pair. Later paragraphs are the answer.
+ * A question with no answer is left out.
+ */
+export function infoFaq(content: string): InfoFaq[] {
+  const section = faqSection(content);
+  if (section === null) return [];
+
+  const pairs: InfoFaq[] = [];
+  let question: string | null = null;
+  const answerParts: string[] = [];
+
+  const flush = () => {
+    if (!question) return;
+    const answer = answerParts.join(' ').replace(/\s+/g, ' ').trim();
+    if (answer) pairs.push({ question, answer });
+    question = null;
+    answerParts.length = 0;
+  };
+
+  for (const block of infoBlocks(section)) {
+    if (block.type === 'heading') break;
+    const name = questionName(block.inlines);
+    if (name) {
+      flush();
+      question = name;
+      continue;
+    }
+    if (!question) continue;
+    const text = faqText(block.inlines).replace(/\s+/g, ' ').trim();
+    if (text) answerParts.push(text);
+  }
+
+  flush();
+  return pairs;
+}

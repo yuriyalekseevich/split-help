@@ -11,6 +11,7 @@ const row = {
   title: 'Где искать жильё',
   subtitle: 'Сначала Njuškalo',
   image_url: 'https://cdn.example.com/flat.jpg',
+  category: 'housing',
   description: 'Откройте список и проверьте город.',
   created_at: '2026-03-01T08:00:00.000Z',
 };
@@ -66,6 +67,7 @@ describe('parseUsefulInfoRow', () => {
       slug: 'gde-iskat-zhile',
       title: '  Где искать жильё  ',
       description: '  Откройте список и проверьте город.  ',
+      category: 'documents',
       created_at: row.created_at,
     });
     expect(parsed.success).toBe(true);
@@ -87,6 +89,9 @@ describe('parseUsefulInfoRow', () => {
     expect(parseUsefulInfoRow({ ...row, image_url: 'javascript:alert(1)' }).success).toBe(false);
     expect(parseUsefulInfoRow({ ...row, image_url: 'https://user:pass@cdn.example.com/a.jpg' }).success).toBe(false);
     expect(parseUsefulInfoRow({ ...row, created_at: 'yesterday' }).success).toBe(false);
+    expect(parseUsefulInfoRow({ ...row, category: 'travel' }).success).toBe(false);
+    const { category: _category, ...withoutCategory } = row;
+    expect(parseUsefulInfoRow(withoutCategory).success).toBe(false);
   });
 });
 
@@ -96,6 +101,7 @@ describe('assembleUsefulInfo', () => {
       id: 5,
       slug: 'finding-accommodation',
       image_url: 'https://broker.hr/flat.jpg',
+      category: 'housing',
       created_at: '2026-10-02T15:25:07.395Z',
       status: 'published',
     },
@@ -103,6 +109,7 @@ describe('assembleUsefulInfo', () => {
       id: 3,
       slug: 'mup-appointment',
       image_url: 'https://www.redomat.com/ticket.jpg',
+      category: 'documents',
       created_at: '2026-10-02T15:22:41.658Z',
       status: 'published',
     },
@@ -110,6 +117,7 @@ describe('assembleUsefulInfo', () => {
       id: 9,
       slug: 'hidden-draft',
       image_url: null,
+      category: 'city',
       created_at: '2026-10-01T10:00:00.000Z',
       status: 'draft',
     },
@@ -157,7 +165,9 @@ describe('assembleUsefulInfo', () => {
     expect(result.data[0]).toMatchObject({
       subtitle: 'Top local classifieds',
       image_url: 'https://broker.hr/flat.jpg',
+      category: 'housing',
     });
+    expect(result.data[1]?.category).toBe('documents');
   });
 
   it('falls back to the default language when the requested translation is missing', () => {

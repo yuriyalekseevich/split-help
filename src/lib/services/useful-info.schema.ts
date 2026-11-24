@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { AppError, clientMessage } from '@/lib/errors/app-error';
 import { indexableLocales } from '@/lib/i18n';
 import type { ParseOutcome } from '@/lib/services/base.service';
-import type { UsefulInfo } from '@/lib/types/database';
+import { infoCategories, type UsefulInfo } from '@/lib/types/database';
 
 const LIMITS = {
   title: 500,
@@ -55,6 +55,7 @@ export const usefulInfoRowSchema = z.object({
   title: requiredText(LIMITS.title),
   subtitle: optionalText(LIMITS.subtitle),
   image_url: optionalImageUrl,
+  category: z.enum(infoCategories),
   description: requiredText(LIMITS.description),
   created_at: z.string().trim().refine((value) => !Number.isNaN(Date.parse(value)), 'invalid_date'),
 });
@@ -87,6 +88,7 @@ export type UsefulInfoArticleSource = {
   id: number;
   slug: string | null;
   image_url: string | null;
+  category: string;
   created_at: string;
   status: string;
 };
@@ -149,6 +151,7 @@ export function assembleUsefulInfo(
       title: chosen.title,
       subtitle: chosen.subtitle,
       image_url: article.image_url,
+      category: article.category,
       description: chosen.description,
       created_at: article.created_at,
     });

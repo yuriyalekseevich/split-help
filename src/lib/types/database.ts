@@ -21,6 +21,9 @@ export type LanguageRow = Database['public']['Tables']['languages']['Row'];
 export type UsefulInfoInsert = TablesInsert<'useful_info'>;
 export type UsefulInfoUpdate = TablesUpdate<'useful_info'>;
 
+export const infoCategories = ['documents', 'housing', 'finance', 'city'] as const;
+export type InfoCategory = (typeof infoCategories)[number];
+
 /**
  * Flat article the public pages render.
  * Title, subtitle, and description live on `useful_info_translations`, not on the row.
@@ -31,6 +34,7 @@ export type UsefulInfo = {
   title: string;
   subtitle: string | null;
   image_url: string | null;
+  category: InfoCategory;
   description: string;
   created_at: string;
   /** Locale of the text actually rendered. May differ from the URL locale. */

@@ -36,7 +36,16 @@
     "teaser": "Kratki odgovori koje dopunjujemo: gdje tražiti stan, kako rezervirati termin u MUP-u i sve ostalo što ljudi pitaju.",
     "cta": "Pogledajte pitanja",
     "pageTitle": "Korisne informacije",
+    "pageSubtitle": "Vodiči o dokumentima, stanovanju, novcu i gradu.",
     "growing": "Popis stalno raste. Dodajemo odgovor kad se isto pitanje ponovi.",
+    "filterLabel": "Kategorije",
+    "categories": {
+      "all": "Sve",
+      "documents": "Dokumenti i boravak",
+      "housing": "Stanovanje",
+      "finance": "Banke i troškovi",
+      "city": "Grad i prijevoz"
+    },
     "searchLabel": "Pretraži pitanja",
     "searchPlaceholder": "Stranica, riječ, MUP…",
     "empty": "Nema pogodaka. Pokušajte ime stranice ili drugu riječ.",

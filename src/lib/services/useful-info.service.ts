@@ -16,7 +16,7 @@ import type { Result } from '@/lib/types/result';
 const PUBLISHED_STATUS = 'published';
 
 /**
- * Public reads join `useful_info` (image, status, dates) with
+ * Public reads join `useful_info` (image, category, status, dates) with
  * `useful_info_translations` (title, subtitle, description per language).
  * Writes still touch the parent row only. Pass a MutationGuard when writes open.
  */
@@ -47,7 +47,7 @@ async function readUsefulInfo(
 ): Promise<Result<UsefulInfo[]>> {
   let articlesQuery = client
     .from('useful_info')
-    .select('id, slug, image_url, created_at, status')
+    .select('id, slug, image_url, category, created_at, status')
     .eq('status', PUBLISHED_STATUS)
     .order('created_at', { ascending: false });
   let translationsQuery = client
@@ -102,7 +102,7 @@ async function readUsefulInfoBySlug(
   try {
     const articlesResult = await client
       .from('useful_info')
-      .select('id, slug, image_url, created_at, status, related_service_ids, related_info_ids')
+      .select('id, slug, image_url, category, created_at, status, related_service_ids, related_info_ids')
       .eq('status', PUBLISHED_STATUS)
       .eq('slug', slug)
       .order('created_at', { ascending: false });
@@ -140,7 +140,7 @@ async function readUsefulInfoByIds(
   try {
     const articlesResult = await client
       .from('useful_info')
-      .select('id, slug, image_url, created_at, status')
+      .select('id, slug, image_url, category, created_at, status')
       .eq('status', PUBLISHED_STATUS)
       .in('id', ids);
 
@@ -157,7 +157,14 @@ async function assemblePublished(
   client: SupabaseClient<Database>,
   operation: string,
   languageCode: string,
-  articles: { id: number; slug: string | null; image_url: string | null; created_at: string; status: string }[],
+  articles: {
+    id: number;
+    slug: string | null;
+    image_url: string | null;
+    category: string;
+    created_at: string;
+    status: string;
+  }[],
   extra?: Record<string, unknown>,
 ): Promise<Result<UsefulInfo[]>> {
   if (articles.length === 0) return { success: true, data: [] };

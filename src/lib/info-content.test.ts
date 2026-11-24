@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { infoBlocks, infoExcerpt } from '@/lib/info-content';
+import { infoBlocks, infoExcerpt, infoFaq } from '@/lib/info-content';
 
 const SAMPLE = [
   '### 📍 Где находится MUP в Сплите',
@@ -79,5 +79,78 @@ describe('infoExcerpt', () => {
     expect(text).not.toContain('**');
     expect(text).not.toContain('maps.google.com');
     expect(text).not.toContain('portal.hr');
+  });
+});
+
+const FAQ = [
+  'Intro outside the section.',
+  '',
+  '## ❓ Wrong level',
+  '',
+  '**9. Not in a level-three section**',
+  '',
+  'No.',
+  '',
+  '### ❓ Questions',
+  '',
+  'Lead in that is not a question.',
+  '',
+  '**Just bold**',
+  '',
+  '**1. Where is MUP?**',
+  '',
+  'Apply at the office. See https://www.portal.hr/mup.',
+  '',
+  '**2. Which documents?**',
+  '',
+  'Passport and a **photo**.',
+  'Read [the portal](https://www.example.com/docs).',
+  '',
+  '**3. Empty next**',
+  '',
+  '### 📍 Next section',
+  '',
+  '**4. After the section**',
+  '',
+  'This answer is outside.',
+].join('\n');
+
+describe('infoFaq', () => {
+  it('returns nothing when there is no FAQ heading', () => {
+    expect(infoFaq('**1. Where?**\n\nAt the office.')).toEqual([]);
+  });
+
+  it('ignores a level-two heading that starts with the emoji', () => {
+    const content = ['## ❓ Questions', '', '**1. Where?**', '', 'At the office.'].join('\n');
+    expect(infoFaq(content)).toEqual([]);
+  });
+
+  it('reads numbered bold questions and keeps the answer text', () => {
+    expect(infoFaq(FAQ)).toEqual([
+      {
+        question: 'Where is MUP?',
+        answer: 'Apply at the office. See https://www.portal.hr/mup.',
+      },
+      {
+        question: 'Which documents?',
+        answer: 'Passport and a photo. Read the portal.',
+      },
+    ]);
+  });
+
+  it('stops at the next heading', () => {
+    const questions = infoFaq(FAQ).map((item) => item.question);
+    expect(questions).not.toContain('After the section');
+  });
+
+  it('does not treat a bold line without a number as a question', () => {
+    const questions = infoFaq(FAQ).map((item) => item.question);
+    expect(questions).not.toContain('Just bold');
+    expect(questions).not.toContain('Not in a level-three section');
+  });
+
+  it('drops a question that has no answer', () => {
+    const questions = infoFaq(FAQ).map((item) => item.question);
+    expect(questions).not.toContain('Empty next');
   });
 });

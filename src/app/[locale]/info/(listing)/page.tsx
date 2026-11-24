@@ -55,9 +55,11 @@ export default async function InfoPage({ params }: Props) {
           </li>
         </ol>
       </nav>
-      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.16em] text-sea">{t('eyebrow')}</p>
-      <h1 className="mt-3 font-serif text-4xl text-ink sm:text-5xl">{t('pageTitle')}</h1>
-      <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">{t('growing')}</p>
+      <header className="mt-6 max-w-2xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sea">{t('eyebrow')}</p>
+        <h1 className="mt-3 font-serif text-4xl text-ink sm:text-5xl">{t('pageTitle')}</h1>
+        <p className="mt-3 text-lg text-muted">{t('pageSubtitle')}</p>
+      </header>
 
       {result.success ? (
         result.data.length === 0 ? (
